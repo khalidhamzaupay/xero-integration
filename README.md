@@ -43,9 +43,7 @@ This command will build and start all required services: PHP (Laravel), MySQL, a
    ```sh
    php artisan key:generate
    ```
-   ```sh
-   php artisan migrate
-   ```
+
 
 #### 3.3. Exit the container
    ```sh
@@ -54,5 +52,4 @@ This command will build and start all required services: PHP (Laravel), MySQL, a
 
 ### 4. Access the application
 - **App URL:** [http://localhost:8080](http://localhost:8080)
-
 ---

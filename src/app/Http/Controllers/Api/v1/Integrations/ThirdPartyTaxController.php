@@ -1,12 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api\v1\Integrations;
 
-use App\Models\SyncIntegration;
+use App\Http\Controllers\ApplicationController;
+use app\Models\Integrations\ThirdPartyTax;
 use Illuminate\Http\Request;
 
-class SyncIntegrationController extends Controller
+class ThirdPartyTaxController extends ApplicationController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -34,7 +40,7 @@ class SyncIntegrationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SyncIntegration $syncIntegration)
+    public function show(ThirdPartyTax $thirdPartyTax)
     {
         //
     }
@@ -42,7 +48,7 @@ class SyncIntegrationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SyncIntegration $syncIntegration)
+    public function edit(ThirdPartyTax $thirdPartyTax)
     {
         //
     }
@@ -50,7 +56,7 @@ class SyncIntegrationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SyncIntegration $syncIntegration)
+    public function update(Request $request, ThirdPartyTax $thirdPartyTax)
     {
         //
     }
@@ -58,7 +64,7 @@ class SyncIntegrationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SyncIntegration $syncIntegration)
+    public function destroy(ThirdPartyTax $thirdPartyTax)
     {
         //
     }

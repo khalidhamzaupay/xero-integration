@@ -1,12 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api\v1\Integrations;
 
-use App\Models\ThirdPartyTax;
+use App\Http\Controllers\ApplicationController;
+use app\Models\Integrations\ThirdPartyChartOfAccountsAccount;
 use Illuminate\Http\Request;
 
-class ThirdPartyTaxController extends Controller
+class ThirdPartyChartOfAccountsAccountController extends ApplicationController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -34,7 +40,7 @@ class ThirdPartyTaxController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ThirdPartyTax $thirdPartyTax)
+    public function show(ThirdPartyChartOfAccountsAccount $thirdPartyChartOfAccountsAccount)
     {
         //
     }
@@ -42,7 +48,7 @@ class ThirdPartyTaxController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ThirdPartyTax $thirdPartyTax)
+    public function edit(ThirdPartyChartOfAccountsAccount $thirdPartyChartOfAccountsAccount)
     {
         //
     }
@@ -50,7 +56,7 @@ class ThirdPartyTaxController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ThirdPartyTax $thirdPartyTax)
+    public function update(Request $request, ThirdPartyChartOfAccountsAccount $thirdPartyChartOfAccountsAccount)
     {
         //
     }
@@ -58,7 +64,7 @@ class ThirdPartyTaxController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ThirdPartyTax $thirdPartyTax)
+    public function destroy(ThirdPartyChartOfAccountsAccount $thirdPartyChartOfAccountsAccount)
     {
         //
     }

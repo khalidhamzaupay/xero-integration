@@ -1,12 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api\v1\Integrations;
 
-use App\Models\ThirdPartyAccess;
+use App\Http\Controllers\ApplicationController;
+use app\Models\Integrations\ThirdPartyMapping;
 use Illuminate\Http\Request;
 
-class ThirdPartyAccessController extends Controller
+class ThirdPartyMappingController extends ApplicationController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -34,7 +40,7 @@ class ThirdPartyAccessController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ThirdPartyAccess $thirdPartyAccess)
+    public function show(ThirdPartyMapping $thirdPartyMapping)
     {
         //
     }
@@ -42,7 +48,7 @@ class ThirdPartyAccessController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ThirdPartyAccess $thirdPartyAccess)
+    public function edit(ThirdPartyMapping $thirdPartyMapping)
     {
         //
     }
@@ -50,7 +56,7 @@ class ThirdPartyAccessController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ThirdPartyAccess $thirdPartyAccess)
+    public function update(Request $request, ThirdPartyMapping $thirdPartyMapping)
     {
         //
     }
@@ -58,7 +64,7 @@ class ThirdPartyAccessController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ThirdPartyAccess $thirdPartyAccess)
+    public function destroy(ThirdPartyMapping $thirdPartyMapping)
     {
         //
     }

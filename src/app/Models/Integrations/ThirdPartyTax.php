@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace app\Models\Integrations;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class FailSyncIntegration extends Model
+class ThirdPartyTax extends Model
 {
     public static $logAttributes = ["*"];
 
@@ -15,7 +13,7 @@ class FailSyncIntegration extends Model
      *
      * @var array
      */
-    protected static $logName = 'FailSyncIntegration';
+    protected static $logName = 'ThirdPartyTax';
 
     /**
      * define belongsTo relations.
@@ -44,12 +42,19 @@ class FailSyncIntegration extends Model
      * @var array
      */
     protected $fillable = [
-        'sync_integration_id',
-        'object_id',
-        'object_type',
-        'message',
-        'type',
-        'tenant_id',
+        'id',
+        'name',
+        'active',
+        'integration_type',
+        'mapping_id',
+        'third_party_access_id',
+        'sales_tax_group_id',
+        'purchase_tax_group_id',
+        'apply_on_sales',
+        'apply_on_purchases',
+        'mapping_sales_tax_rate_id',
+        'mapping_purchase_tax_rate_id',
+        'tenant_id'
     ];
 
     /**
@@ -58,35 +63,24 @@ class FailSyncIntegration extends Model
      * @var array
      */
     protected $casts = [
-
     ];
+
 
     public $translatable = [
 
     ];
 
-    public static $allowedSorts = [
-        'type',
-        'created_at'
-    ];
-
     public static $allowedFilters = [
-        'object_type',
     ];
 
     public static $allowedFilersExact = [
-        'id',
-        'type',
-        'tenant_id',
-        'object_id',
+        'tenant_id'
     ];
 
     public static $allowedFilersScope = [
     ];
 
     public static $includes = [
-        'object',
-        'user',
     ];
 
     /**
@@ -94,16 +88,5 @@ class FailSyncIntegration extends Model
      *
      * @var array
      */
-    protected $table = "fail_sync_integrations";
-
-    //<editor-fold desc="FailSyncIntegration Relations" defaultstate="collapsed">
-    public function object(): MorphTo
-    {
-        return $this->morphTo();
-    }
-    public function syncIntegration(): BelongsTo
-    {
-        return $this->belongsTo(SyncIntegration::class);
-    }
-    //</editor-fold>
+    protected $table = "third_party_taxes";
 }

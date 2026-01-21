@@ -1,12 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api\v1\Integrations;
 
-use App\Models\ThirdPartyMapping;
+use App\Http\Controllers\ApplicationController;
+use app\Models\Integrations\FailSyncIntegration;
 use Illuminate\Http\Request;
 
-class ThirdPartyMappingController extends Controller
+class FailSyncIntegrationController extends ApplicationController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -34,7 +40,7 @@ class ThirdPartyMappingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ThirdPartyMapping $thirdPartyMapping)
+    public function show(FailSyncIntegration $failSyncIntegration)
     {
         //
     }
@@ -42,7 +48,7 @@ class ThirdPartyMappingController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ThirdPartyMapping $thirdPartyMapping)
+    public function edit(FailSyncIntegration $failSyncIntegration)
     {
         //
     }
@@ -50,7 +56,7 @@ class ThirdPartyMappingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ThirdPartyMapping $thirdPartyMapping)
+    public function update(Request $request, FailSyncIntegration $failSyncIntegration)
     {
         //
     }
@@ -58,7 +64,7 @@ class ThirdPartyMappingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ThirdPartyMapping $thirdPartyMapping)
+    public function destroy(FailSyncIntegration $failSyncIntegration)
     {
         //
     }

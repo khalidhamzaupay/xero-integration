@@ -1,12 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers\Api\v1\Integrations;
 
-use App\Models\FailSyncIntegration;
+use App\Http\Controllers\ApplicationController;
+use app\Models\Integrations\SyncIntegration;
 use Illuminate\Http\Request;
 
-class FailSyncIntegrationController extends Controller
+class SyncIntegrationController extends ApplicationController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -34,7 +40,7 @@ class FailSyncIntegrationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(FailSyncIntegration $failSyncIntegration)
+    public function show(SyncIntegration $syncIntegration)
     {
         //
     }
@@ -42,7 +48,7 @@ class FailSyncIntegrationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(FailSyncIntegration $failSyncIntegration)
+    public function edit(SyncIntegration $syncIntegration)
     {
         //
     }
@@ -50,7 +56,7 @@ class FailSyncIntegrationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FailSyncIntegration $failSyncIntegration)
+    public function update(Request $request, SyncIntegration $syncIntegration)
     {
         //
     }
@@ -58,7 +64,7 @@ class FailSyncIntegrationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FailSyncIntegration $failSyncIntegration)
+    public function destroy(SyncIntegration $syncIntegration)
     {
         //
     }

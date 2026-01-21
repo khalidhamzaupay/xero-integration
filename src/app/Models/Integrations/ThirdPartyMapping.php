@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace app\Models\Integrations;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class SyncIntegration extends Model
+class ThirdPartyMapping extends Model
 {
-    protected $with=['createdBy'];
-
-    /**
-     * @var array
-     */
     public static $logAttributes = ["*"];
 
     /**
@@ -19,7 +14,7 @@ class SyncIntegration extends Model
      *
      * @var array
      */
-    protected static $logName = 'SyncIntegrations';
+    protected static $logName = 'ThirdPartyMapping';
 
     /**
      * define belongsTo relations.
@@ -48,18 +43,15 @@ class SyncIntegration extends Model
      * @var array
      */
     protected $fillable = [
+        'object_type',
+        'object_id',
         'type',
-        'end_at',
+        'third_party_code',
+        'third_party_tag',
+        'third_party_id',
         'tenant_id',
-        'status',
-        'created_by',
-        'method'
     ];
 
-    public static $allowedSorts = [
-        'type',
-        'created_at'
-    ];
     /**
      * The attributes that should be cast to native types.
      *
@@ -69,41 +61,38 @@ class SyncIntegration extends Model
 
     ];
 
-
     public $translatable = [
 
     ];
 
     public static $allowedFilters = [
-
     ];
 
     public static $allowedFilersExact = [
         'id',
-        'type',
-        'tenant_id',
-        'status',
-        'created_by',
     ];
 
     public static $allowedFilersScope = [
+        'date_starts_before',
+        'date_ends_before',
+        'date_in_between',
+        'by_date',
     ];
 
-    public static $includes = [
-        'user'
-    ];
+
     /**
      * The table name.
      *
      * @var array
      */
-    protected $table = "sync_integrations";
+    protected $table = "third_party_mappings";
 
 
-    //<editor-fold desc="SyncIntegration Relations" defaultstate="collapsed">
-    public function createdBy(): BelongsTo
+    //<editor-fold desc="ThirdPartyMapping Relations" defaultstate="collapsed">
+    public function object():MorphTo
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->morphTo();
     }
+
     //</editor-fold>
 }

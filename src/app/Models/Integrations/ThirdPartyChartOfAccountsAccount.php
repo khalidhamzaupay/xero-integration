@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace app\Models\Integrations;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ThirdPartyTax extends Model
+class ThirdPartyChartOfAccountsAccount extends Model
 {
+    use HasFactory, SoftDeletes;
+
     public static $logAttributes = ["*"];
 
     /**
@@ -13,7 +17,7 @@ class ThirdPartyTax extends Model
      *
      * @var array
      */
-    protected static $logName = 'ThirdPartyTax';
+    protected static $logName = 'ThirdPartyChartOfAccountsAccount';
 
     /**
      * define belongsTo relations.
@@ -44,17 +48,12 @@ class ThirdPartyTax extends Model
     protected $fillable = [
         'id',
         'name',
-        'active',
-        'integration_type',
-        'mapping_id',
         'third_party_access_id',
-        'sales_tax_group_id',
-        'purchase_tax_group_id',
-        'apply_on_sales',
-        'apply_on_purchases',
-        'mapping_sales_tax_rate_id',
-        'mapping_purchase_tax_rate_id',
-        'tenant_id'
+        'integration_type',
+        'type',
+        'active',
+        'mapping_id',
+        'tenant_id',
     ];
 
     /**
@@ -71,10 +70,13 @@ class ThirdPartyTax extends Model
     ];
 
     public static $allowedFilters = [
+        'name'
     ];
 
     public static $allowedFilersExact = [
-        'tenant_id'
+        'type',
+        'tenant_id',
+        'integration_type',
     ];
 
     public static $allowedFilersScope = [
@@ -88,5 +90,7 @@ class ThirdPartyTax extends Model
      *
      * @var array
      */
-    protected $table = "third_party_taxes";
+    protected $table = "third_party_chart_of_accounts";
+
+
 }

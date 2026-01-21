@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace app\Models\Integrations;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class ThirdPartyChartOfAccountsAccount extends Model
+class FailSyncIntegration extends Model
 {
-    use HasFactory, SoftDeletes;
-
     public static $logAttributes = ["*"];
 
     /**
@@ -17,7 +15,7 @@ class ThirdPartyChartOfAccountsAccount extends Model
      *
      * @var array
      */
-    protected static $logName = 'ThirdPartyChartOfAccountsAccount';
+    protected static $logName = 'FailSyncIntegration';
 
     /**
      * define belongsTo relations.
@@ -46,13 +44,11 @@ class ThirdPartyChartOfAccountsAccount extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
-        'name',
-        'third_party_access_id',
-        'integration_type',
+        'sync_integration_id',
+        'object_id',
+        'object_type',
+        'message',
         'type',
-        'active',
-        'mapping_id',
         'tenant_id',
     ];
 
@@ -62,27 +58,35 @@ class ThirdPartyChartOfAccountsAccount extends Model
      * @var array
      */
     protected $casts = [
-    ];
 
+    ];
 
     public $translatable = [
 
     ];
 
+    public static $allowedSorts = [
+        'type',
+        'created_at'
+    ];
+
     public static $allowedFilters = [
-        'name'
+        'object_type',
     ];
 
     public static $allowedFilersExact = [
+        'id',
         'type',
         'tenant_id',
-        'integration_type',
+        'object_id',
     ];
 
     public static $allowedFilersScope = [
     ];
 
     public static $includes = [
+        'object',
+        'user',
     ];
 
     /**
@@ -90,7 +94,16 @@ class ThirdPartyChartOfAccountsAccount extends Model
      *
      * @var array
      */
-    protected $table = "third_party_chart_of_accounts";
+    protected $table = "fail_sync_integrations";
 
-
+    //<editor-fold desc="FailSyncIntegration Relations" defaultstate="collapsed">
+    public function object(): MorphTo
+    {
+        return $this->morphTo();
+    }
+    public function syncIntegration(): BelongsTo
+    {
+        return $this->belongsTo(SyncIntegration::class);
+    }
+    //</editor-fold>
 }

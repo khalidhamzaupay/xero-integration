@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fail_sync_integrations', function (Blueprint $table) {
+        Schema::create('third_party_organizations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sync_integration_id');
-            $table->unsignedBigInteger('object_id');
-            $table->string('object_type');
-            $table->text('message')->nullable();
-            $table->string('type')->nullable();
+            $table->unsignedBigInteger('third_party_access_id');
+            $table->string('third_party_id');
+            $table->string('name')->nullable();
+            $table->text('integration_type')->nullable();
             $table->unsignedBigInteger('merchant_id');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('sync_integration_id')->references('id')->on('sync_integrations')->onDelete('cascade');
+            $table->foreign('third_party_access_id')->references('id')->on('third_party_accesses')->onDelete('cascade');
         });
     }
 

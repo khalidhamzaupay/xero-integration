@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models\Integrations;
+namespace App\Models\Integrations;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -51,7 +51,7 @@ class SyncIntegration extends Model
     protected $fillable = [
         'type',
         'end_at',
-        'tenant_id',
+        'merchant_id',
         'status',
         'created_by',
         'method'
@@ -82,7 +82,7 @@ class SyncIntegration extends Model
     public static $allowedFilersExact = [
         'id',
         'type',
-        'tenant_id',
+        'merchant_id',
         'status',
         'created_by',
     ];

@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('third_party_code')->nullable();
             $table->string('third_party_tag')->nullable();
             $table->string('third_party_id')->nullable();
-            $table->unsignedBigInteger('tenant_id');
+            $table->unsignedBigInteger('merchant_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

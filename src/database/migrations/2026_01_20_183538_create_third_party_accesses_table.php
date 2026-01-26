@@ -22,7 +22,8 @@ return new class extends Migration
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->timestamp('refresh_token_expires_at')->nullable();
-            $table->unsignedBigInteger('tenant_id');
+            $table->unsignedBigInteger('merchant_id');
+            $table->unsignedBigInteger('organization_id');
             $table->unsignedBigInteger('assets_account_id')->nullable();
             $table->unsignedBigInteger('sale_account_id')->nullable();
             $table->unsignedBigInteger('purchase_account_id')->nullable();
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->unsignedBigInteger('default_expense_payment_account_id')->nullable();
             $table->string('state')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

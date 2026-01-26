@@ -24,8 +24,9 @@ return new class extends Migration
             $table->boolean('apply_on_purchases')->default(false);
             $table->unsignedBigInteger('mapping_sales_tax_rate_id')->nullable();
             $table->unsignedBigInteger('mapping_purchase_tax_rate_id')->nullable();
-            $table->unsignedBigInteger('tenant_id');
+            $table->unsignedBigInteger('merchant_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('third_party_access_id')->references('id')->on('third_party_accesses')->onDelete('cascade');
             $table->foreign('mapping_id')->references('id')->on('third_party_mappings')->onDelete('set null');

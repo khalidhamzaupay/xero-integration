@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models\Integrations;
+namespace App\Models\Integrations;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -49,7 +49,7 @@ class ThirdPartyMapping extends Model
         'third_party_code',
         'third_party_tag',
         'third_party_id',
-        'tenant_id',
+        'merchant_id',
     ];
 
     /**

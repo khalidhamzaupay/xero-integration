@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models\Integrations;
+namespace App\Models\Integrations;
 
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -60,7 +60,7 @@ class ThirdPartyAccess extends Model
         'starts_at',
         'expires_at',
         'refresh_token_expires_at',
-        'tenant_id',
+        'merchant_id',
         'assets_account_id',
         'sale_account_id',
         'purchase_account_id',
@@ -99,7 +99,8 @@ class ThirdPartyAccess extends Model
         'default_purchase_payment_account_id',
         'expense_account_id',
         'default_expense_payment_account_id',
-        'tenant_id'
+        'merchant_id',
+        'organization_id'
     ];
 
     public static $allowedSorts = [
@@ -109,7 +110,7 @@ class ThirdPartyAccess extends Model
         'client_id',
         'client_secret',
         'expires_at',
-        'tenant_id'
+        'merchant_id'
     ];
 
     public static $allowedFilersExact = [

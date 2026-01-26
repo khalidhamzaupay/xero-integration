@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->timestamp('end_at')->nullable();
-            $table->unsignedBigInteger('tenant_id');
+            $table->unsignedBigInteger('merchant_id');
             $table->string('status')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->string('method')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

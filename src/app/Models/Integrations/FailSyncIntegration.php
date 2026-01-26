@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models\Integrations;
+namespace App\Models\Integrations;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -49,7 +49,7 @@ class FailSyncIntegration extends Model
         'object_type',
         'message',
         'type',
-        'tenant_id',
+        'merchant_id',
     ];
 
     /**
@@ -77,7 +77,7 @@ class FailSyncIntegration extends Model
     public static $allowedFilersExact = [
         'id',
         'type',
-        'tenant_id',
+        'merchant_id',
         'object_id',
     ];
 

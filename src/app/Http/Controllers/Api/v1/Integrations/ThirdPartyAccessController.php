@@ -1,13 +1,22 @@
 <?php
 
-namespace app\Http\Controllers\Api\v1\Integrations;
+namespace App\Http\Controllers\Api\v1\Integrations;
 
 use App\Http\Controllers\ApplicationController;
+use App\Http\Requests\ThirdPartyAccess\ThirdPartyAccessStoreFormRequest;
+use App\Http\Resources\ThirdPartyAccess\ThirdPartyAccessResource;
 use app\Models\Integrations\ThirdPartyAccess;
+use App\Services\ThirdPartyAccess\StoreThirdPartyAccessService;
+use App\Traits\Responder;
 use Illuminate\Http\Request;
 
 class ThirdPartyAccessController extends ApplicationController
 {
+    use Responder;
+    protected $viewPath = 'ThirdPartyAccess';
+    protected $resourceRoute = 'ThirdPartyAccess';
+    protected $moduleAlias = 'Integrations';
+
     public function __construct()
     {
         parent::__construct();
@@ -32,9 +41,37 @@ class ThirdPartyAccessController extends ApplicationController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ThirdPartyAccessStoreFormRequest $request, StoreThirdPartyAccessService $service)
     {
-        //
+        try {
+            $response = $service->handle($request->validated());
+            if (is_array($response)) {
+                $prams = [
+                    "data" => [
+                            "title" => __('main.show-all') . ' ' . __('main.ThirdPartyAccess'),
+                            "alias" => $this->moduleAlias,
+                        ] + $response,
+                    "redirectTo" => ["route" => "{$this->resourceRoute}.show", "args" => [$response['third_party_access']->id]]
+                ];
+            } else if (get_class($response) == ThirdPartyAccess::class) {
+                $prams = [
+                    "data" => [
+                        "title" => __('main.show-all') . ' ' . __('main.ThirdPartyAccess'),
+                        "alias" => $this->moduleAlias,
+                        "thirdPartyAccess" => new ThirdPartyAccessResource($response)
+                    ],
+                    "redirectTo" => ["route" => "{$this->resourceRoute}.show", "args" => [$response->id]]
+                ];
+            }
+
+        } catch (\Exception $exception) {
+            $prams = [
+                "data" => ["message" => "Something went wrong: " . $exception->getMessage()],
+                "response_code" => 422,
+                "redirectBack" => true
+            ];
+        }
+        return $this->response($prams);
     }
 
     /**

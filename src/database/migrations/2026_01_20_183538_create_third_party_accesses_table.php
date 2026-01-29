@@ -22,8 +22,8 @@ return new class extends Migration
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->timestamp('refresh_token_expires_at')->nullable();
-            $table->unsignedBigInteger('merchant_id');
-            $table->unsignedBigInteger('organization_id');
+            $table->unsignedBigInteger('merchant_id')->nullable();
+            $table->unsignedBigInteger('organization_id')->nullable();
             $table->unsignedBigInteger('assets_account_id')->nullable();
             $table->unsignedBigInteger('sale_account_id')->nullable();
             $table->unsignedBigInteger('purchase_account_id')->nullable();

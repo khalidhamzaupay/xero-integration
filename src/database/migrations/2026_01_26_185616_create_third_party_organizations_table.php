@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('merchant_id');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('third_party_access_id')->references('id')->on('third_party_accesses')->onDelete('cascade');
+//            $table->foreign('third_party_access_id')->references('id')->on('third_party_accesses')->onDelete('cascade');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fail_sync_integrations');
+        Schema::dropIfExists('third_party_organizations');
     }
 };

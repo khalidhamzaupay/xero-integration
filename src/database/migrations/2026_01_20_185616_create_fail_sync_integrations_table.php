@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('sync_integration_id')->references('id')->on('sync_integrations')->onDelete('cascade');
+//            $table->foreign('sync_integration_id')->references('id')->on('sync_integrations')->onDelete('cascade');
         });
     }
 

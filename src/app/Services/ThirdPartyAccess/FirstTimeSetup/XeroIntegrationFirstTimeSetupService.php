@@ -10,6 +10,7 @@ class XeroIntegrationFirstTimeSetupService
 {
     public static function setup($thirdPartyAccess): ThirdPartyAccess|array
     {
+        dd('xe');
         return [];
     }
 }

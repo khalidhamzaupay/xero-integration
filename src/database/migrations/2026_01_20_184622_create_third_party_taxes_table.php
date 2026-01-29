@@ -28,8 +28,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('third_party_access_id')->references('id')->on('third_party_accesses')->onDelete('cascade');
-            $table->foreign('mapping_id')->references('id')->on('third_party_mappings')->onDelete('set null');
+//            $table->foreign('third_party_access_id')->references('id')->on('third_party_accesses')->onDelete('cascade');
+//            $table->foreign('mapping_id')->references('id')->on('third_party_mappings')->onDelete('set null');
 
         });
     }

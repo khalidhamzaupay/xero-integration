@@ -5,6 +5,7 @@ namespace App\Services\ThirdPartyAccess;
 use App\Models\Integrations\ThirdPartyAccess;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use App\Factories\IntegrationFirstTimeSetupFactory;
 
 class StoreThirdPartyAccessService
 {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1\Integrations;
 
 use App\Http\Controllers\ApplicationController;
 use App\Http\Requests\ThirdPartyAccess\ThirdPartyAccessStoreFormRequest;
+use App\Http\Requests\ThirdPartyAccess\ThirdPartyAccessUpdateFormRequest;
 use App\Http\Resources\ThirdPartyAccess\ThirdPartyAccessResource;
 use app\Models\Integrations\ThirdPartyAccess;
 use App\Services\ThirdPartyAccess\StoreThirdPartyAccessService;
@@ -93,11 +94,73 @@ class ThirdPartyAccessController extends ApplicationController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ThirdPartyAccess $thirdPartyAccess)
+    public function update(ThirdPartyAccessUpdateFormRequest $request, ThirdPartyAccess $thirdPartyAccess,UpdateThirdPartyAccessService $updateThirdPartyAccessService)
     {
-        //
+        try {
+            $response = $updateThirdPartyAccessService->handle($thirdPartyAccess,$request->validated());
+            if (is_array($response)) {
+                $prams = [
+                    "data" => [
+                            "title" => __('main.show-all') . ' ' . __('main.ThirdPartyAccess'),
+                            "alias" => $this->moduleAlias,
+                        ] + $response,
+                    "redirectTo" => ["route" => "{$this->resourceRoute}.show", "args" => [$response['third_party_access']->id]]
+                ];
+            } else if (get_class($response) == ThirdPartyAccess::class) {
+                $prams = [
+                    "data" => [
+                        "title" => __('main.show-all') . ' ' . __('main.ThirdPartyAccess'),
+                        "alias" => $this->moduleAlias,
+                        "thirdPartyAccess" => new ThirdPartyAccessResource($response)
+                    ],
+                    "redirectTo" => ["route" => "{$this->resourceRoute}.show", "args" => [$response->id]]
+                ];
+            }
+
+        } catch (\Exception $exception) {
+            $prams = [
+                "data" => ["message" => "Something went wrong: " . $exception->getMessage()],
+                "response_code" => 422,
+                "redirectBack" => true
+            ];
+        }
+        return $this->response($prams);
     }
 
+
+    public function secondTimeSetup(ThirdPartyAccessUpdateFormRequest $request, $id,SecondTimeSetupThirdPartyAccessService $secondTimeSetupThirdPartyAccessService)
+    {
+        $thirdPartyAccess = ThirdPartyAccess::find($id);
+        try {
+            $response = $secondTimeSetupThirdPartyAccessService->handle($thirdPartyAccess,$request->validated());
+            if (is_array($response)) {
+                $prams = [
+                    "data" => [
+                            "title" => __('main.show-all') . ' ' . __('main.ThirdPartyAccess'),
+                            "alias" => $this->moduleAlias,
+                        ] + $response,
+                    "redirectTo" => ["route" => "{$this->resourceRoute}.show", "args" => [$response['third_party_access']->id]]
+                ];
+            } else if (get_class($response) == ThirdPartyAccess::class) {
+                $prams = [
+                    "data" => [
+                        "title" => __('main.show-all') . ' ' . __('main.ThirdPartyAccess'),
+                        "alias" => $this->moduleAlias,
+                        "thirdPartyAccess" => new ThirdPartyAccessResource($response)
+                    ],
+                    "redirectTo" => ["route" => "{$this->resourceRoute}.show", "args" => [$response->id]]
+                ];
+            }
+
+        } catch (\Exception $exception) {
+            $prams = [
+                "data" => ["message" => "Something went wrong: " . $exception->getMessage()],
+                "response_code" => 422,
+                "redirectBack" => true
+            ];
+        }
+        return $this->response($prams);
+    }
     /**
      * Remove the specified resource from storage.
      */

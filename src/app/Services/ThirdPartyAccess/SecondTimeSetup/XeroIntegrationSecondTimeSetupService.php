@@ -1,34 +1,32 @@
 <?php
 
-
-namespace App\Services\ThirdPartyAccess\FirstTimeSetup;
-
+namespace App\Services\ThirdPartyAccess\SecondTimeSetup;
 
 use App\Factories\AuthenticationFactory;
 use App\Http\Resources\ThirdPartyChartOfAccountsAccount\ThirdPartyChartOfAccountsAccountResource;
-use App\Models\Integrations\ThirdPartyAccess;
 use App\Models\Integrations\ThirdPartyChartOfAccountsAccount;
 use App\Models\Integrations\ThirdPartyOrganization;
 use App\Services\Adaptors\Get\GetChartOfAccountsAdaptorXeroService;
 use App\Services\Adaptors\Get\GetThirdPartyTaxesAdaptorXeroService;
-use App\Services\ThirdPartyAccess\Authentication\GenerateXeroAuthLink;
 
-class XeroIntegrationFirstTimeSetupService
+class XeroIntegrationSecondTimeSetupService
 {
-    public static function setup($thirdPartyAccess): ThirdPartyAccess|array
-    {
-        try {
-            // Authenticate and get access token
-            $accessToken =AuthenticationFactory::make($thirdPartyAccess->type)->getAccessToken($thirdPartyAccess);
 
-            if (!$accessToken) {
-                $generateXeroAuthLink = new GenerateXeroAuthLink();
-                return $generateXeroAuthLink->execute($thirdPartyAccess)+['third_party_access'=>$thirdPartyAccess];
-            }
+    public static function setup($thirdPartyAccess)
+    {
+        $check_second_time_update = ThirdPartyChartOfAccountsAccount::where('third_party_access_id', $thirdPartyAccess->id)->first();
+        if ($check_second_time_update) {
+            return [
+                "third_party_access" => $thirdPartyAccess,
+            ];
+        }
+        try {
+            AuthenticationFactory::make($thirdPartyAccess->type)->getAccessToken($thirdPartyAccess);
         } catch (\Exception $exception) {
-            throw new \Exception('Xero Authentication Failed');
+            throw  new \Exception('This Credentials Authentication Failed To Authenticate');
         }
 
+        ThirdPartyChartOfAccountsAccount::where('clinic_id', $thirdPartyAccess->clinic_id)->where('integration_type', $thirdPartyAccess->type)->delete();
         try {
             $adaptor_services = [
                 GetChartOfAccountsAdaptorXeroService::class,
@@ -38,11 +36,9 @@ class XeroIntegrationFirstTimeSetupService
                 (new $service($thirdPartyAccess))->import();
             }
         } catch (\Exception $exception) {
-            throw new \Exception('Xero Setup Import Process Failed');
+            throw  new \Exception('The Setup Import Process Failed');
         }
-
-        // Fetch chart of accounts + organizations for merchant
-        $thirdPartyAccounts = ThirdPartyChartOfAccountsAccount::where('merchant_id', $thirdPartyAccess->merchant_id)
+        $thirdPartyAccounts = ThirdPartyChartOfAccountsAccount::where('clinic_id', $thirdPartyAccess->clinic_id)
             ->where('integration_type', $thirdPartyAccess->type)
             ->get();
 
@@ -54,10 +50,13 @@ class XeroIntegrationFirstTimeSetupService
             "third_party_access" => $thirdPartyAccess,
             "third_party_organizations" => $thirdPartyOrganizations,
             "sale_accounts" => ThirdPartyChartOfAccountsAccountResource::collection($thirdPartyAccounts->where('type', 'REVENUE')),
-            "purchase_accounts" => ThirdPartyChartOfAccountsAccountResource::collection($thirdPartyAccounts->where('type', 'COGS')),
+            "purchase_accounts" => ThirdPartyChartOfAccountsAccountResource::collection($thirdPartyAccounts->whereIn('type', ['EXPENSE','DIRECTCOSTS','INVENTORY'])),
             "expense_accounts" => ThirdPartyChartOfAccountsAccountResource::collection($thirdPartyAccounts->where('type', 'EXPENSE')),
             "expense_payment_accounts" => ThirdPartyChartOfAccountsAccountResource::collection($thirdPartyAccounts->whereIn('type', ['CURRENT', 'BANK'])),
             "payment_accounts" => ThirdPartyChartOfAccountsAccountResource::collection($thirdPartyAccounts->whereIn('type', ['CURRENT', 'BANK', 'EQUITY'])),
+            "assets_accounts" => ThirdPartyChartOfAccountsAccountResource::collection($thirdPartyAccounts->whereIn('type', ['CURRENT', 'FIXED', 'INVENTORY'])),
         ];
     }
+
+
 }

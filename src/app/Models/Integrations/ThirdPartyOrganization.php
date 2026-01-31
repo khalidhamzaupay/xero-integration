@@ -29,6 +29,7 @@ class ThirdPartyOrganization extends Model
         'integration_type',
         'third_party_access_id',
         'third_party_id',
+        'merchant_id',
     ];
 
     /**

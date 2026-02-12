@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models\Integrations;
+namespace App\Models\Integrations;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -53,7 +53,7 @@ class ThirdPartyChartOfAccountsAccount extends Model
         'type',
         'active',
         'mapping_id',
-        'tenant_id',
+        'merchant_id',
     ];
 
     /**
@@ -75,7 +75,7 @@ class ThirdPartyChartOfAccountsAccount extends Model
 
     public static $allowedFilersExact = [
         'type',
-        'tenant_id',
+        'merchant_id',
         'integration_type',
     ];
 

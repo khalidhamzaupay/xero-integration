@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models\Integrations;
+namespace App\Models\Integrations;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -54,7 +54,7 @@ class ThirdPartyTax extends Model
         'apply_on_purchases',
         'mapping_sales_tax_rate_id',
         'mapping_purchase_tax_rate_id',
-        'tenant_id'
+        'merchant_id'
     ];
 
     /**
@@ -74,7 +74,7 @@ class ThirdPartyTax extends Model
     ];
 
     public static $allowedFilersExact = [
-        'tenant_id'
+        'merchant_id'
     ];
 
     public static $allowedFilersScope = [

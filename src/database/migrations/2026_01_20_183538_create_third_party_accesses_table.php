@@ -14,15 +14,16 @@ return new class extends Migration
         Schema::create('third_party_accesses', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->string('access_key')->nullable();
-            $table->string('access_token')->nullable();
-            $table->string('refresh_token')->nullable();
-            $table->string('client_id')->nullable();
-            $table->string('client_secret')->nullable();
+            $table->text('access_key')->nullable();
+            $table->text('access_token')->nullable();
+            $table->text('refresh_token')->nullable();
+            $table->text('client_id')->nullable();
+            $table->text('client_secret')->nullable();
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->timestamp('refresh_token_expires_at')->nullable();
-            $table->unsignedBigInteger('tenant_id');
+            $table->unsignedBigInteger('merchant_id')->nullable();
+            $table->unsignedBigInteger('organization_id')->nullable();
             $table->unsignedBigInteger('assets_account_id')->nullable();
             $table->unsignedBigInteger('sale_account_id')->nullable();
             $table->unsignedBigInteger('purchase_account_id')->nullable();
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->unsignedBigInteger('default_expense_payment_account_id')->nullable();
             $table->string('state')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

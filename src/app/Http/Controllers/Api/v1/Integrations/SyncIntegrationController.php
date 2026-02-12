@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Controllers\Api\v1\Integrations;
+namespace App\Http\Controllers\Api\v1\Integrations;
 
 use App\Http\Controllers\ApplicationController;
 use app\Models\Integrations\SyncIntegration;

@@ -93,7 +93,8 @@ class HandleXeroCallbackService
                 ],
                 [
                     'third_party_access_id'=> $this->thirdPartyAccess->id,
-                    'merchant_id'=> 1,
+                    'name'=> $connection['tenantName'],
+                    'merchant_id'=> $this->thirdPartyAccess->merchant_id,
                 ]
             );
         }

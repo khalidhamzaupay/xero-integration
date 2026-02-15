@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('third_party_mappings', function (Blueprint $table) {
             $table->id();
             $table->string('object_type');
-            $table->unsignedBigInteger('object_id');
+            $table->string('object_id');
             $table->string('type')->nullable();
             $table->string('third_party_code')->nullable();
             $table->string('third_party_tag')->nullable();
             $table->string('third_party_id')->nullable();
-            $table->unsignedBigInteger('merchant_id');
+            $table->string('merchant_id');
             $table->timestamps();
             $table->softDeletes();
         });

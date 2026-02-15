@@ -3,6 +3,7 @@
 namespace App\Models\Integrations;
 
 
+use App\Models\Integrations\ThirdPartyOrganization;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -68,6 +69,7 @@ class ThirdPartyAccess extends Model
         'expense_account_id',
         'default_expense_payment_account_id',
         'state',
+        'organization_id'
     ];
 
     /**
@@ -135,19 +137,24 @@ class ThirdPartyAccess extends Model
 
     public function saleAccount(): BelongsTo
     {
-        return $this->belongsTo(ThirdPartyChartOfAccountsAccount::class, 'sale_account_id');
+        return $this->belongsTo(ThirdPartyChartOfAccount::class, 'sale_account_id');
     }
     public function expenseAccount(): BelongsTo
     {
-        return $this->belongsTo(ThirdPartyChartOfAccountsAccount::class, 'expense_account_id');
+        return $this->belongsTo(ThirdPartyChartOfAccount::class, 'expense_account_id');
     }
     public function defaultPurchasePaymentAccount(): BelongsTo
     {
-        return $this->belongsTo(ThirdPartyChartOfAccountsAccount::class, 'default_purchase_payment_account_id');
+        return $this->belongsTo(ThirdPartyChartOfAccount::class, 'default_purchase_payment_account_id');
     }
     public function defaultExpensePaymentAccount(): BelongsTo
     {
-        return $this->belongsTo(ThirdPartyChartOfAccountsAccount::class, 'default_expense_payment_account_id');
+        return $this->belongsTo(ThirdPartyChartOfAccount::class, 'default_expense_payment_account_id');
+    }
+
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(ThirdPartyOrganization::class, 'organization_id');
     }
 
     //</editor-fold>

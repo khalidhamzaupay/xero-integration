@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api\v1\Integrations;
 
 use App\Http\Controllers\ApplicationController;
-use app\Models\Integrations\ThirdPartyChartOfAccountsAccount;
+use app\Models\Integrations\ThirdPartyChartOfAccount;
 use Illuminate\Http\Request;
 
-class ThirdPartyChartOfAccountsAccountController extends ApplicationController
+class ThirdPartyChartOfAccountController extends ApplicationController
 {
     public function __construct()
     {
@@ -40,7 +40,7 @@ class ThirdPartyChartOfAccountsAccountController extends ApplicationController
     /**
      * Display the specified resource.
      */
-    public function show(ThirdPartyChartOfAccountsAccount $thirdPartyChartOfAccountsAccount)
+    public function show(ThirdPartyChartOfAccount $thirdPartyChartOfAccount)
     {
         //
     }
@@ -48,7 +48,7 @@ class ThirdPartyChartOfAccountsAccountController extends ApplicationController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ThirdPartyChartOfAccountsAccount $thirdPartyChartOfAccountsAccount)
+    public function edit(ThirdPartyChartOfAccount $thirdPartyChartOfAccount)
     {
         //
     }
@@ -56,7 +56,7 @@ class ThirdPartyChartOfAccountsAccountController extends ApplicationController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ThirdPartyChartOfAccountsAccount $thirdPartyChartOfAccountsAccount)
+    public function update(Request $request, ThirdPartyChartOfAccount $thirdPartyChartOfAccount)
     {
         //
     }
@@ -64,7 +64,7 @@ class ThirdPartyChartOfAccountsAccountController extends ApplicationController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ThirdPartyChartOfAccountsAccount $thirdPartyChartOfAccountsAccount)
+    public function destroy(ThirdPartyChartOfAccount $thirdPartyChartOfAccount)
     {
         //
     }

@@ -1,10 +1,10 @@
 <?php
-namespace App\Http\Resources\ThirdPartyChartOfAccountsAccount;
+namespace App\Http\Resources\ThirdPartyChartOfAccount;
 
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
-class ThirdPartyChartOfAccountsAccountResource extends JsonResource
+class ThirdPartyChartOfAccountResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -12,7 +12,7 @@ class ThirdPartyChartOfAccountsAccountResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function data(Request $request):array
+    public function toArray($request): array
     {
         return [
 

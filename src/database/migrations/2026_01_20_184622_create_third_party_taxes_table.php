@@ -16,15 +16,15 @@ return new class extends Migration
             $table->string('name');
             $table->boolean('active')->default(true);
             $table->string('integration_type')->nullable();
-            $table->unsignedBigInteger('mapping_id')->nullable();
-            $table->unsignedBigInteger('third_party_access_id');
-            $table->unsignedBigInteger('sales_tax_group_id')->nullable();
-            $table->unsignedBigInteger('purchase_tax_group_id')->nullable();
+            $table->string('mapping_id')->nullable();
+            $table->string('third_party_access_id');
+            $table->string('sales_tax_group_id')->nullable();
+            $table->string('purchase_tax_group_id')->nullable();
             $table->boolean('apply_on_sales')->default(false);
             $table->boolean('apply_on_purchases')->default(false);
-            $table->unsignedBigInteger('mapping_sales_tax_rate_id')->nullable();
-            $table->unsignedBigInteger('mapping_purchase_tax_rate_id')->nullable();
-            $table->unsignedBigInteger('merchant_id');
+            $table->string('mapping_sales_tax_rate_id')->nullable();
+            $table->string('mapping_purchase_tax_rate_id')->nullable();
+            $table->string('merchant_id');
             $table->timestamps();
             $table->softDeletes();
 

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api\v1\Integrations;
 
 use App\Http\Controllers\ApplicationController;
+use App\Http\Requests\ThirdPartyAccess\ThirdPartyAccessSecondSetupFormRequest;
 use App\Http\Requests\ThirdPartyAccess\ThirdPartyAccessStoreFormRequest;
 use App\Http\Requests\ThirdPartyAccess\ThirdPartyAccessUpdateFormRequest;
 use App\Http\Resources\ThirdPartyAccess\ThirdPartyAccessResource;
-use app\Models\Integrations\ThirdPartyAccess;
+use App\Models\Integrations\ThirdPartyAccess;
+use App\Services\ThirdPartyAccess\SecondTimeSetupThirdPartyAccessService;
 use App\Services\ThirdPartyAccess\StoreThirdPartyAccessService;
+use App\Services\ThirdPartyAccess\UpdateThirdPartyAccessService;
 use App\Traits\Responder;
 use Illuminate\Http\Request;
 
@@ -94,7 +97,7 @@ class ThirdPartyAccessController extends ApplicationController
     /**
      * Update the specified resource in storage.
      */
-    public function update(ThirdPartyAccessUpdateFormRequest $request, ThirdPartyAccess $thirdPartyAccess,UpdateThirdPartyAccessService $updateThirdPartyAccessService)
+    public function update(ThirdPartyAccessUpdateFormRequest $request,ThirdPartyAccess $thirdPartyAccess,UpdateThirdPartyAccessService $updateThirdPartyAccessService)
     {
         try {
             $response = $updateThirdPartyAccessService->handle($thirdPartyAccess,$request->validated());
@@ -128,7 +131,7 @@ class ThirdPartyAccessController extends ApplicationController
     }
 
 
-    public function secondTimeSetup(ThirdPartyAccessUpdateFormRequest $request, $id,SecondTimeSetupThirdPartyAccessService $secondTimeSetupThirdPartyAccessService)
+    public function secondTimeSetup(ThirdPartyAccessSecondSetupFormRequest $request, $id,SecondTimeSetupThirdPartyAccessService $secondTimeSetupThirdPartyAccessService)
     {
         $thirdPartyAccess = ThirdPartyAccess::find($id);
         try {

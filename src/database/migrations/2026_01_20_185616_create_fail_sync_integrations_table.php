@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('fail_sync_integrations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sync_integration_id');
-            $table->unsignedBigInteger('object_id');
+            $table->string('sync_integration_id');
+            $table->string('object_id');
             $table->string('object_type');
             $table->text('message')->nullable();
             $table->string('type')->nullable();
-            $table->unsignedBigInteger('merchant_id');
+            $table->string('merchant_id');
             $table->timestamps();
             $table->softDeletes();
 

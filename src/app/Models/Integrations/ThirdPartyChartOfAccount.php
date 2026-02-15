@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ThirdPartyChartOfAccountsAccount extends Model
+class ThirdPartyChartOfAccount extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -17,7 +17,7 @@ class ThirdPartyChartOfAccountsAccount extends Model
      *
      * @var array
      */
-    protected static $logName = 'ThirdPartyChartOfAccountsAccount';
+    protected static $logName = 'ThirdPartyChartOfAccount';
 
     /**
      * define belongsTo relations.

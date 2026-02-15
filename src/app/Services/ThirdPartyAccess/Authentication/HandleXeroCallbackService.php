@@ -36,7 +36,7 @@ class HandleXeroCallbackService
 
     private function getThirdPartyAccess(): ThirdPartyAccess
     {
-        return ThirdPartyAccess::where('marchent_id', $this->marchentId)
+        return ThirdPartyAccess::where('merchant_id', $this->merchant_id)
             ->where('type', IntegrationsType::Xero->value)
             ->firstOrFail();
     }

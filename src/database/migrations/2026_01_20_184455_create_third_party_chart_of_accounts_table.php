@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('third_party_chart_of_accounts_accounts', function (Blueprint $table) {
+        Schema::create('third_party_chart_of_accounts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('third_party_access_id');
+            $table->string('third_party_access_id');
             $table->string('integration_type')->nullable();
             $table->string('type')->nullable();
             $table->boolean('active')->default(true);
-            $table->unsignedBigInteger('mapping_id')->nullable();
-            $table->unsignedBigInteger('merchant_id');
+            $table->string('mapping_id')->nullable();
+            $table->string('merchant_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('third_party_chart_of_accounts_accounts');
+        Schema::dropIfExists('third_party_chart_of_accounts');
     }
 };

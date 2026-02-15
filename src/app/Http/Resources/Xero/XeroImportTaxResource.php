@@ -9,14 +9,14 @@ use Illuminate\Http\Request;
 
 class XeroImportTaxResource extends JsonResource
 {
-    public function data(Request $request): array
+    public function toArray($request): array
     {
         return [
             "mapping_id" => $this['TaxType'] ?? null,
             "name" => $this['Name'] ?? null,
             "integration_type" => IntegrationsType::Xero->value,
             "active" => ($this['Status'] ?? '') === 'ACTIVE',
-            "tax_percentage" => $this['EffectiveRate'] ?? null,
+//            "tax_percentage" => $this['EffectiveRate'] ?? null,
         ];
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class XeroImportAccountResource extends JsonResource
 {
-    public function data(Request $request): array
+    public function toArray($request): array
     {
         return [
             "mapping_id"       => $this['Code'] ?? null, // code

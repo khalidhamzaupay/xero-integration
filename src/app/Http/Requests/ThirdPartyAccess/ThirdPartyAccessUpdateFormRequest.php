@@ -3,7 +3,11 @@
 namespace App\Http\Requests\ThirdPartyAccess;
 
 
-class ThirdPartyAccessUpdateFormRequest extends ThirdPartyAccessStoreFormRequest
+use App\Enums\ThirdPartyAccessStateEnum;
+use Illuminate\Foundation\Http\FormRequest as FormRequest;
+use Illuminate\Validation\Rules\Enum;
+
+class ThirdPartyAccessUpdateFormRequest extends FormRequest
 {
 
     public function authorize()
@@ -18,9 +22,8 @@ class ThirdPartyAccessUpdateFormRequest extends ThirdPartyAccessStoreFormRequest
      */
     public function rules()
     {
-        $parentRules = parent::rules();
 
-        $rules = [
+        return [
             'sale_account_id' => 'nullable|string|exists:third_party_chart_of_accounts,id|max:255',
             'purchase_account_id' => 'nullable|string|exists:third_party_chart_of_accounts,id|max:255',
             'default_purchase_payment_account_id' => 'nullable|string|exists:third_party_chart_of_accounts,id|max:255',
@@ -28,18 +31,12 @@ class ThirdPartyAccessUpdateFormRequest extends ThirdPartyAccessStoreFormRequest
             'default_expense_payment_account_id' => 'nullable|string|exists:third_party_chart_of_accounts,id|max:255',
             'assets_account_id' => 'nullable|string|exists:third_party_chart_of_accounts,id|max:255',
             'organization_id' => 'nullable|string|exists:third_party_organizations,id|max:255',
+            'state' => ['nullable', new Enum(ThirdPartyAccessStateEnum::class)],
+            'expires_at'    => 'nullable|date',
+
         ];
 
-        return array_merge($parentRules, $rules);
     }
 
-    /**
-     * Get custom attributes for validator errors.
-     *
-     * @return array
-     */
-    public function attributes()
-    {
-        return parent::attributes();
-    }
+
 }

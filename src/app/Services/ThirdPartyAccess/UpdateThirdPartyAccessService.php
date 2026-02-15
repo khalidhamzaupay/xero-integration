@@ -13,6 +13,7 @@ class UpdateThirdPartyAccessService
     public function handle(ThirdPartyAccess $thirdPartyAccess,array $data)
     {
         $update = $thirdPartyAccess->update($data);
+        $data['third_party_access'] = $thirdPartyAccess;
         return $data??$thirdPartyAccess;
     }
 

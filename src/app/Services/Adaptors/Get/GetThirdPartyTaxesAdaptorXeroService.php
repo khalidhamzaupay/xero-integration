@@ -40,7 +40,6 @@ class GetThirdPartyTaxesAdaptorXeroService
             $data = (new $this->resourceClass($itemData))->toArray(request());
             $data['third_party_access_id'] = $this->thirdPartyAccess?->id;
             $data['merchant_id'] = $this->thirdPartyAccess?->merchant_id;
-
             $items[] = ThirdPartyTax::updateOrCreate(
                 Arr::only($data, 'mapping_id'),
                 Arr::except($data, 'mapping_id')

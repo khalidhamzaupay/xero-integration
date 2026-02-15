@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ThirdPartyAccessResource extends JsonResource
 {
 
-    public function data(Request $request): array
+    public function toArray($request): array
     {
         return [
 

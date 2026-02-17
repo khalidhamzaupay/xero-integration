@@ -25,9 +25,7 @@ class ThirdPartyAccessResource extends JsonResource
             'assets_account_id'                   => $this->assets_account_id,
             'sale_account_id'                     => $this->sale_account_id,
             'purchase_account_id'                 => $this->purchase_account_id,
-            'default_purchase_payment_account_id' => $this->default_purchase_payment_account_id,
             'expense_account_id'                  => $this->expense_account_id,
-            'default_expense_payment_account_id'  => $this->default_expense_payment_account_id,
         ];
     }
 }

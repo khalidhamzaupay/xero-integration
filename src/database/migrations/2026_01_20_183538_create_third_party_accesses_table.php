@@ -27,9 +27,7 @@ return new class extends Migration
             $table->string('assets_account_id')->nullable();
             $table->string('sale_account_id')->nullable();
             $table->string('purchase_account_id')->nullable();
-            $table->string('default_purchase_payment_account_id')->nullable();
             $table->string('expense_account_id')->nullable();
-            $table->string('default_expense_payment_account_id')->nullable();
             $table->string('state')->nullable();
             $table->timestamps();
             $table->softDeletes();

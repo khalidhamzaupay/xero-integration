@@ -65,9 +65,7 @@ class ThirdPartyAccess extends Model
         'assets_account_id',
         'sale_account_id',
         'purchase_account_id',
-        'default_purchase_payment_account_id',
         'expense_account_id',
-        'default_expense_payment_account_id',
         'state',
         'organization_id'
     ];
@@ -98,9 +96,7 @@ class ThirdPartyAccess extends Model
         'assets_account_id',
         'sale_account_id',
         'purchase_account_id',
-        'default_purchase_payment_account_id',
         'expense_account_id',
-        'default_expense_payment_account_id',
         'merchant_id',
         'organization_id'
     ];
@@ -142,14 +138,6 @@ class ThirdPartyAccess extends Model
     public function expenseAccount(): BelongsTo
     {
         return $this->belongsTo(ThirdPartyChartOfAccount::class, 'expense_account_id');
-    }
-    public function defaultPurchasePaymentAccount(): BelongsTo
-    {
-        return $this->belongsTo(ThirdPartyChartOfAccount::class, 'default_purchase_payment_account_id');
-    }
-    public function defaultExpensePaymentAccount(): BelongsTo
-    {
-        return $this->belongsTo(ThirdPartyChartOfAccount::class, 'default_expense_payment_account_id');
     }
 
     public function organization(): BelongsTo

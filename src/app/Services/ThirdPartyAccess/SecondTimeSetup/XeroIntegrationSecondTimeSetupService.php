@@ -6,8 +6,8 @@ use App\Factories\AuthenticationFactory;
 use App\Http\Resources\ThirdPartyChartOfAccount\ThirdPartyChartOfAccountResource;
 use App\Models\Integrations\ThirdPartyChartOfAccount;
 use App\Models\Integrations\ThirdPartyOrganization;
-use App\Services\Adaptors\Get\GetChartOfAccountsAdaptorXeroService;
-use App\Services\Adaptors\Get\GetThirdPartyTaxesAdaptorXeroService;
+use App\Services\Adaptors\Xero\Get\GetChartOfAccountsAdaptorXeroService;
+use App\Services\Adaptors\Xero\Get\GetThirdPartyTaxesAdaptorXeroService;
 
 class XeroIntegrationSecondTimeSetupService
 {
@@ -23,10 +23,7 @@ class XeroIntegrationSecondTimeSetupService
 
         ThirdPartyChartOfAccount::where('merchant_id', $thirdPartyAccess->merchant_id)->where('integration_type', $thirdPartyAccess->type)->delete();
         try {
-            $adaptor_services = [
-                GetChartOfAccountsAdaptorXeroService::class,
-                GetThirdPartyTaxesAdaptorXeroService::class,
-            ];
+            $adaptor_services = config('integrationAdaptors.Xero.get');
             foreach ($adaptor_services as $service) {
                 (new $service($thirdPartyAccess))->import();
             }

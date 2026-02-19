@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1\Integrations;
 
+use App\Factories\DataExportToThirdPartyFactory;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Requests\SyncIntegration\SyncIntegrationFormRequest;
 use app\Models\Integrations\SyncIntegration;
+use App\Services\SyncIntegration\IntegrationExportDataService;
 use Illuminate\Http\Request;
 
 class SyncIntegrationController extends ApplicationController
@@ -67,5 +70,30 @@ class SyncIntegrationController extends ApplicationController
     public function destroy(SyncIntegration $syncIntegration)
     {
         //
+    }
+    public function sync(SyncIntegrationFormRequest $request)
+    {
+        $data = $request->validated();
+        $syncIntegrationsService = new IntegrationExportDataService($data['third_parts_access_id']);
+        $syncIntegrations = $syncIntegrationsService->export();
+        if ($syncIntegrations) {
+            $prams = [
+                "data" => [
+                    "title" => __('main.show-all') . ' ' . __('main.SyncIntegration'), "alias" => $this->moduleAlias,
+                    "syncIntegrations" => SyncIntegrationResource::collection($syncIntegrations)
+                ],
+                "redirectTo" => ["route" => "{$this->resourceRoute}.index"]
+            ];
+
+        } else {
+
+            $prams = [
+                "data" => ["message" => "Create failed"],
+                "response_code" => 422,
+                "redirectBack" => true
+            ];
+
+        }
+        return $this->response($prams);
     }
 }

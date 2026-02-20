@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Xero;
 
-
 use App\Enums\Xero\XeroItemStatusEnum;
 use App\Enums\Xero\XeroTaxTypesEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -11,31 +10,45 @@ class XeroProductResource extends JsonResource
 {
     public function toArray($request): array
     {
+        $data = [
+            "Code" => $this->code,
+            "Name" => $this->name,
+            "Description" => $this->description,
 
-        $base = [
-            "Code"   => "",
-            "Name"   => "",
-            "Description" => "",
             "SalesDetails" => [
-                "UnitPrice"   => "",
-                "AccountCode" => "",
+                "UnitPrice"   => (float) $this->sale_price,
+                "AccountCode" =>'',
             ],
-            "PurchaseDescription" => "",
-            "SalesDescription"    => "",
-            "PurchaseTaxType"     => XeroTaxTypesEnum::NONE->value,
-            "SalesTaxType"        => XeroTaxTypesEnum::NONE->value,
-            "Status"              => XeroItemStatusEnum::ACTIVE->value,
-            "IsSold"              => true,
-            "IsTrackedAsInventory" => "",
-            "Quantity" => ""
+
+            "SalesDescription" => $this->description,
+
+            "SalesTaxType" => $this->sale_tax
+                ?? XeroTaxTypesEnum::NONE->value,
+
+            "Status" => $this->active
+                ? XeroItemStatusEnum::ACTIVE->value
+                : XeroItemStatusEnum::ARCHIVED->value,
+
+            "IsSold" => true,
         ];
 
-        $base["PurchaseDetails"] = [
-            "UnitPrice"   => "",
-            "AccountCode" => "",
-        ];
+        // Purchase details (optional in Xero)
+        if ($this->cost_price || $this->cost_account) {
+            $data["PurchaseDetails"] = [
+                "UnitPrice"   => (float) $this->cost_price,
+                "AccountCode" => '',
+            ];
 
-        return $base;
+            $data["PurchaseDescription"] = $this->description;
+            $data["PurchaseTaxType"] = $this->purchase_tax
+                ?? XeroTaxTypesEnum::NONE->value;
+        }
+
+        if ($this->is_inventory) {
+            $data["IsTrackedAsInventory"] = true;
+            $data["Quantity"] = (float) $this->quantity;
+        }
+
+        return $data;
     }
 }
-

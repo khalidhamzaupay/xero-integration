@@ -8,15 +8,12 @@ class XeroReturnInvoiceItemResource extends JsonResource
 {
     public function toArray($request): array
     {
-
         return [
-            'Description' => "",
-            'Quantity' => "",
-            'UnitAmount' => "",
-
-            'ItemCode' => "",
-
-            'TaxType' =>""?? 'OUTPUT',
+            'Description' => $this->description,
+            'Quantity' => (float) $this->quantity,
+            'UnitAmount' => (float) $this->unit_amount,
+            'ItemCode' => $this->item?->code,
+            'TaxType' => $this->tax_type,
         ];
     }
 }

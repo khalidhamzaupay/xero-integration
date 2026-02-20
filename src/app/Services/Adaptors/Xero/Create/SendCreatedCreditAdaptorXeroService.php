@@ -3,7 +3,7 @@
 
 namespace App\Services\Adaptors\Xero\Create;
 
-use App\Http\Resources\Xero\XeroClientResource;
+use App\Http\Resources\Xero\XeroCustomerResource;
 use App\Http\Resources\Xero\XeroCreditResource;
 use App\Services\Adaptors\Xero\BaseAdaptorXeroService;
 

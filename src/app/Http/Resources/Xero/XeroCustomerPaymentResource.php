@@ -11,14 +11,14 @@ class XeroCustomerPaymentResource extends JsonResource
         $invoiceId = $this->invoice?->xeroMapping?->third_party_id;
         return [
             "Invoice" => [
-                "InvoiceID" => "",
+                "InvoiceID" => $this->invoice?->xero_mapping_id,
             ],
             "Account" => [
-                "Code" => $this->payment->paymentMethod?->xeroMapping?->third_party_id,
+                "Code" => $this->payment?->paymentMethod?->xero_mapping_id,
             ],
-            "Date" => "",
-            "Amount" => "",
-            "Reference" => "",
+            "Date" => optional($this->date)?->format('Y-m-d'),
+            "Amount" => (float) $this->amount,
+            "Reference" => $this->reference,
         ];
     }
 }

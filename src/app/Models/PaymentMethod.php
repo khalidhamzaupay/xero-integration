@@ -9,11 +9,14 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class PaymentMethod extends Model
 {
-    protected $fillable = [
-        'name'
-    ];
+    protected $table;
+    protected $guarded = [];
 
-    protected $table = "payment_methods";
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->table = config('xero.mapping.payment_methods.table', 'payment_methods');
+    }
 
     public function xeroMapping($merchant_id =null):MorphOne
     {

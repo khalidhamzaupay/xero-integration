@@ -13,4 +13,5 @@ use App\Http\Controllers\Api\v1\Integrations\SyncIntegrationController;
     Route::get('get-payment-methods-for-mapping/{id}/{type}',[IntegrationController::class,'getMerchantIntegrationPaymentMethodConfigurations']);
     Route::post('payment-methods-mapping/{id}/{type}',[IntegrationController::class,'storePaymentTypeMappingForIntegration']);
     Route::post('sync-third-party-integration',[SyncIntegrationController::class,'sync']);
+    Route::post('single-sync',[SyncIntegrationController::class,'singleSync']);
 //});

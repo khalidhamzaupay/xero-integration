@@ -15,14 +15,14 @@ class SendCreatedCustomerAdaptorXeroService extends BaseAdaptorXeroService
     protected $objectIDName = 'ContactID';
     protected $resourceClass = XeroCustomerResource::class;
 
-    function getData(): \Illuminate\Database\Eloquent\Collection|array
+    function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
         $customers=Customer::with('xeroMapping')
             ->whereDoesntHave('xeroMapping')
-            ->where(config('xero.mapping.customers.fields.merchant_id'),$this->thirdPartyAccess->merchant_id)
-            ->orderBy('created_at', 'DESC')
-            ->get();
-        return $customers;
-
+            ->where(config('xero.mapping.customers.fields.merchant_id'),$this->thirdPartyAccess->merchant_id);
+        if($object_id){
+            $customers= $customers->where('id',$object_id);
+        }
+        return $customers->orderBy('created_at', 'DESC')->get();
     }
 }

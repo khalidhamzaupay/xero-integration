@@ -18,16 +18,16 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
     protected $objectIDName;
     protected int $perBatch = 50; // max batch size
 
-    abstract function getData(): \Illuminate\Database\Eloquent\Collection|array;
+    abstract function getData($object_id): \Illuminate\Database\Eloquent\Collection|array;
 
     public function getType(): string
     {
         return IntegrationsType::Xero->value;
     }
 
-    public function export(): void
+    public function export($object_id=null): void
     {
-        $items = $this->getData();
+        $items = $this->getData($object_id);
 
         if (!$items || count($items) === 0) return;
 
@@ -108,12 +108,12 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
     }
     public function syncBatch($items, int $try_no = 1): void
     {
-        dump('in sync batch try no: ' . $try_no);
+//        dump('in sync batch try no: ' . $try_no);
         $totalItems = $items->count();
-        dump('in sync batch items: ' . $totalItems);
+//        dump('in sync batch items: ' . $totalItems);
         foreach ($items->chunk($this->perBatch) as $chunkIndex => $chunk) {
             $remainingItems = $totalItems - ($chunkIndex * $this->perBatch);
-            dump("Processing chunk " . ($chunkIndex + 1) . ", remaining items: " . $remainingItems);
+//            dump("Processing chunk " . ($chunkIndex + 1) . ", remaining items: " . $remainingItems);
 
             try {
                 $batchData = [];
@@ -151,7 +151,7 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
                     // retry once after refreshing
                     $this->syncBatch($chunk, $try_no + 1);
                 }
-                dump('handling error... try_no: ' . $try_no);
+//                dump('handling error... try_no: ' . $try_no);
                 $this->handleBatchError($chunk->all(), $e, $try_no);
             }
         }
@@ -189,7 +189,7 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
         elseif($this->syncType === ThirdPartySyncProcessTypeEnum::VOID) {
             $model->xeroMapping?->delete();
         }
-        dump(get_class($model) . " " . ($model->index ?? $model->id ?? 'n/a') . " Synced To Xero Successfully");
+//        dump(get_class($model) . " " . ($model->index ?? $model->id ?? 'n/a') . " Synced To Xero Successfully");
     }
 
     protected function handleSyncObjectError($objectData, \Throwable $e, int $try_no): void
@@ -209,12 +209,12 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
             }
             $message = implode(" | ", $errors);
         }
-        dump(get_class($objectData) . " " . ($objectData->index ?? $objectData->id ?? 'n/a') . " Failed to sync: " . $message . " ,Try no." . $try_no);
+//        dump(get_class($objectData) . " " . ($objectData->index ?? $objectData->id ?? 'n/a') . " Failed to sync: " . $message . " ,Try no." . $try_no);
 
         if ($try_no < 2) {
             $this->syncObject($objectData, $try_no + 1);
         } else {
-            dump('saving to fail');
+//            dump('saving to fail');
             $this->saveToFailedSync($objectData, $this->getType(), $message,$this->syncIntegrationId);
         }
     }
@@ -239,11 +239,11 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
             }
         }
 
-        dump("Batch failed (try_no {$try_no}) -> " . json_encode($errorsMap));
+//        dump("Batch failed (try_no {$try_no}) -> " . json_encode($errorsMap));
         $resync_obj=0;
         // Separate success candidates from failed ones
         foreach ($chunk as $model) {
-            dump($resync_obj++);
+//            dump($resync_obj++);
             $this->syncObject($model, $try_no + 1);
         }
 

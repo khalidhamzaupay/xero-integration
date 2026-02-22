@@ -21,7 +21,7 @@ class IntegrationExportDataService
     }
 
 
-    public function export(): array
+    public function export()
     {
         $syncIntegration = SyncIntegration::create(['merchant_id' => $this->thirdPartsAccess->merchant_id, 'method' => 'all', 'type' => $this->type]);
         $jobs = $this->getSyncExportJobsList($syncIntegration);
@@ -32,7 +32,7 @@ class IntegrationExportDataService
             })
             ->onQueue('export-integrations')
             ->dispatch();
-        return $syncIntegration;
+        return collect([$syncIntegration]);
     }
 
     public function getSyncExportJobsList($syncIntegration):?array

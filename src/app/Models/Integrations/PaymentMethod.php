@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Integrations;
 
 use App\Enums\IntegrationsType;
-use App\Models\Integrations\ThirdPartyMapping;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 

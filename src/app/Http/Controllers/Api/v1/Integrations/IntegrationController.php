@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\Api\v1\Integrations;
 
-use App\Enums\IntegrationsType;
 use App\Factories\IntegrationPaymentMethodFactory;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Requests\Configrations\GetPaymentMethodsForThirdPartyAccessFormRequest;
 use App\Http\Requests\Configrations\MapPaymentMethodForThirdPartyAccessFormRequest;
 use App\Http\Requests\XeroCallbackFormRequest;
 use App\Http\Resources\ThirdPartyAccess\ThirdPartyAccessResource;
+use App\Models\Integrations\PaymentMethod;
 use App\Models\Integrations\ThirdPartyAccess;
 use App\Models\Integrations\ThirdPartyMapping;
-use App\Models\PaymentMethod;
-use App\Models\User;
 use App\Services\ThirdPartyAccess\Authentication\HandleXeroCallbackService;
 use App\Traits\Responder;
 use Illuminate\Http\Request;

@@ -36,7 +36,7 @@ class ExporterAdaptorServiceJob implements ShouldQueue
         try{
             (new $this->adaptorClass($this->thirdPartyAccess,$this->syncIntegration?->id))->export();
             if($this->syncIntegration){
-                SyncIntegration::update(
+                $this->syncIntegration->update(
                     [
                         'end_at' => now(),
                         'status' => SyncIntegrationStatusEnum::SUCCESS->value,
@@ -45,12 +45,13 @@ class ExporterAdaptorServiceJob implements ShouldQueue
         }catch(Exception $e){
             Log::error(self::class.": ".$e->getMessage());
             if($this->syncIntegration){
-                SyncIntegration::update(
+                $this->syncIntegration->update(
                     [
                         'end_at' => now(),
                         'status' => SyncIntegrationStatusEnum::FAIL->value,
                     ]);
             }
+//            throw $e;
         }
     }
 }

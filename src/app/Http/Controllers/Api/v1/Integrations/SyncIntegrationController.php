@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers\Api\v1\Integrations;
 
+use App\Enums\SyncedObjectsEnum;
+use App\Enums\SyncIntegrationStatusEnum;
+use App\Enums\ThirdPartySyncProcessTypeEnum;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Requests\SyncIntegration\SingleSyncFormRequest;
 use App\Http\Requests\SyncIntegration\SyncIntegrationFormRequest;
 use App\Http\Resources\SyncIntegration\SyncIntegrationResource;
-use app\Models\Integrations\SyncIntegration;
+use App\Models\Integrations\SyncIntegration;
+use App\Models\Integrations\ThirdPartyAccess;
 use App\Services\SyncIntegration\IntegrationExportDataService;
 use App\Traits\Responder;
 use Illuminate\Http\Request;
@@ -98,6 +103,38 @@ class SyncIntegrationController extends ApplicationController
                 "redirectBack" => true
             ];
 
+        }
+        return $this->response($prams);
+    }
+
+
+    public function singleSync(SingleSyncFormRequest $request)
+    {
+        $type = $request->get('type');
+        $processEnum = ThirdPartySyncProcessTypeEnum::from(
+            (int) $request->get('method')
+        );
+        $method = strtolower($processEnum->getLabel());
+        $object = $request->get('object_name');
+        $thirdPartyAccess = ThirdPartyAccess::where('type',$type)
+            ->where('merchant_id',$request->get('merchant_id'))
+            ->first();
+        $syncIntegration = SyncIntegration::create(['merchant_id' => $thirdPartyAccess->merchant_id, 'method' => $method, 'type' => $type]);
+        $adaptorClass=config('singleSyncAdaptor.'.$type.'.'.$object.'.'.$method);
+        try{
+            (new $adaptorClass($thirdPartyAccess,$syncIntegration?->id))->export($request['object_id']);
+            $syncIntegration->update(['end_at' => now(), 'status' => SyncIntegrationStatusEnum::SUCCESS->value]);
+            $prams = [
+                "data" => ["message" => "the object has been synced successfully"],
+                "redirectTo" => ["route" => "{$this->resourceRoute}.index"]
+            ];
+        }catch (\Exception $e){
+            $syncIntegration->update(['end_at' => now(), 'status' => SyncIntegrationStatusEnum::FAIL->value]);
+            $prams = [
+                "data" => ["message" => "sync has been failed"],
+                "response_code" => 422,
+                "redirectBack" => true
+            ];
         }
         return $this->response($prams);
     }

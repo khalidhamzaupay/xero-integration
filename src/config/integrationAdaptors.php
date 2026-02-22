@@ -14,6 +14,7 @@ return [
 //            \App\Services\Adaptors\Xero\Create\SendCreatedCreditAdaptorXeroService::class,
 //            \App\Services\Adaptors\Xero\Create\SendCreatedReturnInvoiceAdaptorXeroService::class,
 //            //Update
+            \App\Services\Adaptors\Xero\Update\SendUpdatedCustomerAdaptorXeroService::class,
 //            \App\Services\Adaptors\Xero\Update\SendUpdatedProductAdaptorXeroService::class,
 //            \App\Services\Adaptors\Xero\Update\SendUpdatedInvoiceAdaptorXeroService::class,
 //            \App\Services\Adaptors\Xero\Update\SendUpdatedCustomerPaymentAdaptorXeroService::class,

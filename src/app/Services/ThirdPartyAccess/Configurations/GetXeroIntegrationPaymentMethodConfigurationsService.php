@@ -20,8 +20,8 @@ class GetXeroIntegrationPaymentMethodConfigurationsService
             ->get()
             ->map(function ($paymentMethod) use ($paymentMethodName){
                 return [
-                    "id" => $paymentMethod->xeroMapping?->id,
-                    "object_id" => $paymentMethod->id,
+                    "third_party_mapping_id" => $paymentMethod->xeroMapping?->id,
+                    "payment_method_id" => $paymentMethod->id,
                     "name" => $paymentMethod->$paymentMethodName,
                     "third_party_id" => $paymentMethod->xeroMapping?->third_party_id,
                 ];

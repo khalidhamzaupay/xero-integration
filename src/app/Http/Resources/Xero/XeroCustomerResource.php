@@ -18,7 +18,7 @@ class XeroCustomerResource extends JsonResource
             "EmailAddress" => $this->email,
 
             "ContactStatus" =>
-                $this->active
+                $this->status=='active'
                     ? XeroContactStatusEnum::ACTIVE->value
                     : XeroContactStatusEnum::ARCHIVED->value,
 

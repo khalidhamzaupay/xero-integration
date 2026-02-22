@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\Api\v1\Integrations;
 
-use App\Factories\DataExportToThirdPartyFactory;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Requests\SyncIntegration\SyncIntegrationFormRequest;
+use App\Http\Resources\SyncIntegration\SyncIntegrationResource;
 use app\Models\Integrations\SyncIntegration;
 use App\Services\SyncIntegration\IntegrationExportDataService;
+use App\Traits\Responder;
 use Illuminate\Http\Request;
 
 class SyncIntegrationController extends ApplicationController
 {
+    use Responder;
+    protected $viewPath = 'SyncIntegration';
+    protected $resourceRoute = 'SyncIntegration';
+    protected $moduleAlias = 'Integrations';
     public function __construct()
     {
         parent::__construct();
@@ -74,12 +79,12 @@ class SyncIntegrationController extends ApplicationController
     public function sync(SyncIntegrationFormRequest $request)
     {
         $data = $request->validated();
-        $syncIntegrationsService = new IntegrationExportDataService($data['third_parts_access_id']);
+        $syncIntegrationsService = new IntegrationExportDataService($data['third_party_access_id']);
         $syncIntegrations = $syncIntegrationsService->export();
         if ($syncIntegrations) {
             $prams = [
                 "data" => [
-                    "title" => __('main.show-all') . ' ' . __('main.SyncIntegration'), "alias" => $this->moduleAlias,
+                    "title" => 'show-all Sync Integration', "alias" => $this->moduleAlias,
                     "syncIntegrations" => SyncIntegrationResource::collection($syncIntegrations)
                 ],
                 "redirectTo" => ["route" => "{$this->resourceRoute}.index"]

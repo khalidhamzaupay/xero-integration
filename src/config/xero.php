@@ -2,28 +2,28 @@
 return [
     'mapping'=>[
         'customers'=>[
-            'table'=>'',
+            'table'=>'upaycustomers',
             'fields'=>[
-                'name'       => '',
-                'first_name' => '',
-                'last_name'  => '',
-                'email'      => '',
-                'status'     => '',
+                'name'       => 'name',
+                'first_name' => 'first_name',
+                'last_name'  => 'last_name',
+                'email'      => 'email',
+                'status'     => 'status',
 
                 // address (street)
-                'address_1'  => '',
-                'city'       => '',
-                'region'     => '',
-                'country'    => '',
-                'postal'     => '',
+                'address_1'  => 'address_1',
+                'city'       => 'city',
+                'region'     => 'region',
+                'country'    => 'country',
+                'postal'     => 'postal',
 
                 // phone
-                'phone'      => '',
-                'phone_code' => '',
+                'phone'      => 'phone',
+                'phone_code' => 'phone_code',
 
-                'website'    => '',
-                'notes'      => '',
-                'merchant_id'=>'',
+                'website'    => 'website',
+                'notes'      => 'notes',
+                'merchant_id'=>'merchant_id',
 
             ],
         ],
@@ -127,7 +127,7 @@ return [
         'payment_methods' => [
             'table' => 'payment_methods',
             'fields' => [
-                'name' => '',
+                'name' => 'name',
             ],
         ],
         'credits' => [

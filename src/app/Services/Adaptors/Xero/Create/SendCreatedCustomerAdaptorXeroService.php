@@ -17,11 +17,12 @@ class SendCreatedCustomerAdaptorXeroService extends BaseAdaptorXeroService
 
     function getData(): \Illuminate\Database\Eloquent\Collection|array
     {
-        return Customer::with('xeroMapping', 'user')
-            ->whereDoesntHave('xeroMapping', function ($q) {
-            })->where(config('xero.mapping.customer.merchant_id'),$merchant_id)
-
+        $customers=Customer::with('xeroMapping')
+            ->whereDoesntHave('xeroMapping')
+            ->where(config('xero.mapping.customers.fields.merchant_id'),$this->thirdPartyAccess->merchant_id)
             ->orderBy('created_at', 'DESC')
             ->get();
+        return $customers;
+
     }
 }

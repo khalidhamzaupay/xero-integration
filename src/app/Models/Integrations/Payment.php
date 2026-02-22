@@ -2,7 +2,6 @@
 
 namespace App\Models\Integrations;
 
-use App\Models\PaymentMethod;
 use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model

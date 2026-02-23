@@ -4,7 +4,7 @@ namespace App\Models\Integrations;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Refund extends Model
+class Refund extends BaseIntegrationModel
 {
     protected $table;
 

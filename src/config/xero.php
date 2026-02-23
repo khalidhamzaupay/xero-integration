@@ -1,6 +1,13 @@
 <?php
 return [
     'mapping'=>[
+        'merchants'=>[
+            'table'=>'users',
+            'fields'=>[
+                'id'         =>'id',
+                'name'       => 'name'
+            ]
+        ],
         'customers'=>[
             'table'=>'upaycustomers',
             'fields'=>[
@@ -89,7 +96,7 @@ return [
             'table' => 'upayinvoice_items',
             'fields' => [
                 'id'            =>'id',
-                'item_code'     => 'item_code',
+                'product_id'    => 'item_code',
                 'description'   => 'description',
                 'quantity'      => 'quantity',
                 'unit_amount'   => 'unit_amount',

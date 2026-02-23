@@ -2,9 +2,10 @@
 
 namespace App\Models\Integrations;
 
-use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Invoice extends BaseIntegrationModel
 {
     protected $table;
     protected $guarded = [];
@@ -19,5 +20,9 @@ class Invoice extends Model
     public function items()
     {
         return $this->hasMany(InvoiceItem::class);
+    }
+    public function client():BelongsTo
+    {
+        return $this->belongsTo(Customer::class, 'contact_id');
     }
 }

@@ -5,7 +5,9 @@ namespace App\Services\Adaptors\Xero\Create;
 
 
 use App\Http\Resources\Xero\XeroInvoiceResource;
+use App\Models\Integrations\Invoice;
 use App\Services\Adaptors\Xero\BaseAdaptorXeroService;
+use Illuminate\Support\Facades\Log;
 
 class SendCreatedInvoiceAdaptorXeroService extends BaseAdaptorXeroService
 {
@@ -14,19 +16,18 @@ class SendCreatedInvoiceAdaptorXeroService extends BaseAdaptorXeroService
     protected $objectIDName = 'InvoiceID';
     protected $resourceClass = XeroInvoiceResource::class;
 
-    function getData(): \Illuminate\Database\Eloquent\Collection|array
+    function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
-        $query = Invoice::where('clinic_id', $this->thirdPartyAccess?->clinic_id)
-            ->whereHas('invoiceItems')
+        $query = Invoice::where(config('xero.mapping.invoices.fields.merchant_id'),$this->thirdPartyAccess->merchant_id)
+            ->whereHas('items')
             ->whereHas('client')
             ->whereHas('client.xeroMapping')
             ->whereDoesntHave('xeroMapping')
-            ->with(['client.xeroMapping', 'invoiceItems.clinicItem.item', 'invoiceItems.clinicItem.xeroMapping']);
-
-        if ($this->thirdPartyAccess->starts_at) {
-            $query->where('date', '>=', $this->thirdPartyAccess->starts_at);
+            ->with(['client.xeroMapping', 'items.product', 'items.product.xeroMapping']);
+        if($object_id){
+            $query= $query->where(config('xero.mapping.invoices.fields.id'),$object_id);
         }
-
-        return $query->orderBy('created_at', 'DESC')->get();
+        Log::info(" {$query->count()} invoices to be Created" );
+        return $query->orderBy(config('xero.mapping.invoices.fields.created_at'), 'DESC')->get();
     }
 }

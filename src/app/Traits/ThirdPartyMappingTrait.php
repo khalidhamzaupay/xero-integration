@@ -21,13 +21,14 @@ trait ThirdPartyMappingTrait
             ]);
     }
 
-    public function saveToFailedSync($object, $type, $message, $syncIntegrationId = null): void
+    public function saveToFailedSync($object, $type, $message, $syncIntegrationId = null,$merchant_id=null): void
     {
         $object->failSyncIntegrations()->create(
             [
                 'type' => $type,
                 'message' => $message,
                 'sync_integration_id' => $syncIntegrationId,
+                'merchant_id' => $merchant_id,
             ]);
     }
 

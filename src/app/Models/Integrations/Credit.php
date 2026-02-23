@@ -2,9 +2,8 @@
 
 namespace App\Models\Integrations;
 
-use Illuminate\Database\Eloquent\Model;
 
-class Credit extends Model
+class Credit extends BaseIntegrationModel
 {
     protected $table;
     protected $guarded = [];

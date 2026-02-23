@@ -11,38 +11,40 @@ class XeroCustomerResource extends JsonResource
 {
     public function toArray($request): array
     {
+        $fields=config('xero.mapping.customers.fields');
         return [
-            "Name" => trim($this->name),
-            "FirstName" => $this->first_name,
-            "LastName"  => $this->last_name,
-            "EmailAddress" => $this->email,
+            "Name" => trim($this->{$fields['name']}),
+            "FirstName" => $this->{$fields['first_name']},
+            "LastName"  => $this->{$fields['last_name']},
+            "EmailAddress" => $this->{$fields['email']},
 
-            "ContactStatus" =>
-                $this->status=='active'
-                    ? XeroContactStatusEnum::ACTIVE->value
-                    : XeroContactStatusEnum::ARCHIVED->value,
+            "ContactStatus" =>XeroContactStatusEnum::ACTIVE->value,
+//            "ContactStatus" =>
+//                $this->{$fields['status']}=='active'
+//                    ? XeroContactStatusEnum::ACTIVE->value
+//                    : XeroContactStatusEnum::ARCHIVED->value,
 
             "Addresses" => [
                 [
                     "AddressType" => XeroAddressesEnum::STREET->value,
-                    "AddressLine1" => $this->address_1,
-                    "City"        => $this->city,
-                    "Region"      => $this->region,
-                    "Country"     => $this->country,
-                    "PostalCode"  => $this->postal,
+                    "AddressLine1" => $this->{$fields['address_1']},
+                    "City"        => $this->{$fields['city']},
+                    "Region"      => $this->{$fields['region']},
+                    "Country"     => $this->{$fields['country']},
+                    "PostalCode"  => $this->{$fields['postal']},
                 ],
             ],
 
             "Phones" => [
                 [
                     "PhoneType" => XeroPhoneTypesEnum::DEFAULT->value,
-                    "PhoneNumber" => $this->phone,
-                    "PhoneAreaCode" => $this->phone_code,
+                    "PhoneNumber" => $this->{$fields['phone']},
+                    "PhoneAreaCode" => $this->{$fields['phone_code']},
                 ],
             ],
 
-            "Website" => $this->website,
-            "Notes"   => $this->notes,
+            "Website" => $this->{$fields['website']},
+            "Notes"   => $this->{$fields['notes']},
 
             "IsCustomer" => true,
             "IsSupplier" => false,

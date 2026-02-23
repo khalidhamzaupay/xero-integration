@@ -135,6 +135,10 @@ class ThirdPartyAccess extends Model
     {
         return $this->belongsTo(ThirdPartyChartOfAccount::class, 'sale_account_id');
     }
+    public function purchaseAccount(): BelongsTo
+    {
+        return $this->belongsTo(ThirdPartyChartOfAccount::class, 'purchase_account_id');
+    }
     public function expenseAccount(): BelongsTo
     {
         return $this->belongsTo(ThirdPartyChartOfAccount::class, 'expense_account_id');

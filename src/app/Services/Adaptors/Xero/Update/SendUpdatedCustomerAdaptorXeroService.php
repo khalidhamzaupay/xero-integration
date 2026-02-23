@@ -6,6 +6,7 @@ use App\Http\Resources\Xero\XeroCustomerResource;
 use App\Models\Integrations\Customer;
 use App\Models\Integrations\CustomerPayment;
 use App\Services\Adaptors\Xero\BaseAdaptorXeroService;
+use Illuminate\Support\Facades\Log;
 
 class SendUpdatedCustomerAdaptorXeroService extends BaseAdaptorXeroService
 {
@@ -19,17 +20,18 @@ class SendUpdatedCustomerAdaptorXeroService extends BaseAdaptorXeroService
     {
         if($object_id){
             $customers= Customer::with('xeroMapping')
-                ->where('id',$object_id)
+                ->where(config('xero.mapping.customers.fields.id'),$object_id)
                 ->get();
         }else{
             $customers=Customer::with('xeroMapping')
                 ->whereHas('xeroMapping', function ($q) {
-                    $q->whereColumn(config('xero.mapping.customers.table').'.updated_at', '>', 'third_party_mappings.updated_at');
+                    $q->whereColumn(config('xero.mapping.customers.table').'.'.config('xero.mapping.customers.fields.updated_at'), '>', 'third_party_mappings.updated_at');
                 })
                 ->where(config('xero.mapping.customers.fields.merchant_id'),$this->thirdPartyAccess->merchant_id)
-                ->orderBy('created_at', 'DESC')
+                ->orderBy(config('xero.mapping.customers.fields.created_at'), 'DESC')
                 ->get();
         }
+        Log::info(" {$customers->count()} customers to be updated" );
         return $customers;
 
     }

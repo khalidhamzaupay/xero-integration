@@ -16,7 +16,7 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
     protected $syncType = ThirdPartySyncProcessTypeEnum::CREATE;
     protected $objectName;
     protected $objectIDName;
-    protected int $perBatch = 50; // max batch size
+    protected int $perBatch = 10; // max batch size
 
     abstract function getData($object_id): \Illuminate\Database\Eloquent\Collection|array;
 

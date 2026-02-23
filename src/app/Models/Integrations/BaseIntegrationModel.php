@@ -7,9 +7,11 @@ use App\Enums\IntegrationsType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BaseIntegrationModel extends Model
 {
+    use SoftDeletes;
     /**
      * Get the Xero-specific mapping for this object.
      */

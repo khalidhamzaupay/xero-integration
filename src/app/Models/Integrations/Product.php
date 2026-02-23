@@ -2,9 +2,7 @@
 
 namespace App\Models\Integrations;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Product extends Model
+class Product extends BaseIntegrationModel
 {
     protected $table;
     protected $guarded = [];
@@ -13,7 +11,7 @@ class Product extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('xero.mapping.items.table', 'products');
+        $this->table = config('xero.mapping.products.table', 'products');
     }
 
 

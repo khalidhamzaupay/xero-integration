@@ -4,6 +4,7 @@ return [
         'customers'=>[
             'table'=>'upaycustomers',
             'fields'=>[
+                'id'         =>'id',
                 'name'       => 'name',
                 'first_name' => 'first_name',
                 'last_name'  => 'last_name',
@@ -25,121 +26,177 @@ return [
                 'notes'      => 'notes',
                 'merchant_id'=>'merchant_id',
 
+                'created_at'=>'created_at',
+                'updated_at'=>'updated_at',
+                'deleted_at'=>'deleted_at',
+
             ],
         ],
+
         'products'=>[
-            'table' => 'products',
+            'table' => 'upayproducts',
             'fields' => [
-                'code'        => '',
-                'name'        => '',
-                'description' => '',
+                'id'          =>'id',
+                'code'        => 'code',
+                'name'        => 'name',
+                'description' => 'description',
 
                 // sales
-                'sale_price'  => '',
-                'sale_tax'    => '',
+                'sale_price'  => 'sale_price',
+                'sale_tax'    => 'sale_tax',
 
                 // purchase
-                'cost_price'  => '',
-                'purchase_tax'=> '',
+                'cost_price'  => 'cost_price',
+                'purchase_tax'=> 'purchase_tax',
 
                 // inventory
-                'quantity'    => '',
-                'is_inventory'=> '',
+                'quantity'    => 'quantity',
+                'is_inventory'=> 'is_inventory',
 
                 // status
-                'active'      => '',
-                'merchant_id'=>'',
+                'active'      => 'active',
+                'merchant_id'=>'merchant_id',
 
+                'created_at'=>'created_at',
+                'updated_at'=>'updated_at',
+                'deleted_at'=>'deleted_at'
             ],
         ],
+
         'invoices'=>[
-            'table' => 'invoices',
+            'table' => 'upayinvoices',
             'fields' => [
-                'type'       => '',
-                'contact_id' => '',
-                'date'       => '',
-                'due_date'   => '',
-                'status'     => '',
-                'reference'  => '',
-                'notes'      => '',
-                'subtotal'   => '',
-                'total_tax'  => '',
-                'total'      => '',
-                'merchant_id'=>'',
+                'id'         =>'id',
+                'type'       => 'type',
+                'contact_id' => 'contact_id',
+                'date'       => 'date',
+                'due_date'   => 'due_date',
+                'status'     => 'status',
+                'reference'  => 'reference',
+                'notes'      => 'notes',
+                'subtotal'   => 'subtotal',
+                'total_tax'  => 'total_tax',
+                'total'      => 'total',
+                'merchant_id'=>'merchant_id',
+
+                'created_at'=>'created_at',
+                'updated_at'=>'updated_at',
+                'deleted_at'=>'deleted_at'
             ],
         ],
+
         'invoice_items'=>[
-            'table' => 'invoice_items',
+            'table' => 'upayinvoice_items',
             'fields' => [
-                'item_code'     => '',
-                'description'   => '',
-                'quantity'      => '',
-                'unit_amount'   => '',
-                'account_code'  => '',
-                'tax_type'      => '',
-                'tax_amount'    => '',
-                'discount_rate' => '',
+                'id'            =>'id',
+                'item_code'     => 'item_code',
+                'description'   => 'description',
+                'quantity'      => 'quantity',
+                'unit_amount'   => 'unit_amount',
+                'account_code'  => 'account_code',
+                'tax_type'      => 'tax_type',
+                'tax_amount'    => 'tax_amount',
+                'discount_rate' => 'discount_rate',
+
+                'created_at'=>'created_at',
+                'updated_at'=>'updated_at',
+                'deleted_at'=>'deleted_at'
             ],
         ],
+
         'refunds'=> [
-            'table' => 'refunds',
+            'table' => 'upayrefunds',
             'fields' => [
-                'credit_note_number' => '',
-                'date'               => '',
-                'contact_id'         => '',
-                'line_items'         => '',
-                'status'             => '',
-                'invoice_id'         => '',
-                'amount'             => '',
+                'id'                 =>'id',
+                'credit_note_number' => 'credit_note_number',
+                'date'               => 'date',
+                'contact_id'         => 'contact_id',
+                'line_items'         => 'line_items',
+                'status'             => 'status',
+                'invoice_id'         => 'invoice_id',
+                'amount'             => 'amount',
+
+                'created_at'=>'created_at',
+                'updated_at'=>'updated_at',
+                'deleted_at'=>'deleted_at'
             ],
         ],
 
         'refund_items' => [
-            'table' => 'refund_items',
+            'table' => 'upayrefund_items',
             'fields' => [
-                'description'  => '',
-                'quantity'     => '',
-                'unit_amount'  => '',
-                'item_code'    => '',
-                'tax_type'     => '',
+                'id'           =>'id',
+                'description'  => 'description',
+                'quantity'     => 'quantity',
+                'unit_amount'  => 'unit_amount',
+                'item_code'    => 'item_code',
+                'tax_type'     => 'tax_type',
+
+                'created_at'=>'created_at',
+                'updated_at'=>'updated_at',
+                'deleted_at'=>'deleted_at'
             ],
         ],
+
         'customer_payments' => [
-            'table' => 'customer_payments',
+            'table' => 'upaycustomer_payments',
             'fields' => [
-                'invoice_id'       => '',
-                'account_code'     => '',
-                'date'             => '',
-                'amount'           => '',
-                'reference'        => '',
-                'merchant_id'      => '',
+                'id'               =>'id',
+                'invoice_id'       => 'invoice_id',
+                'account_code'     => 'account_code',
+                'date'             => 'date',
+                'amount'           => 'amount',
+                'reference'        => 'reference',
+                'merchant_id'      => 'merchant_id',
+
+                'created_at'=>'created_at',
+                'updated_at'=>'updated_at',
+                'deleted_at'=>'deleted_at'
             ],
         ],
+
         'payments' => [
-            'table' => 'payments',
+            'table' => 'upaypayments',
             'fields' => [
-                'payment_method_id' => '',
-                'amount'            => '',
-                'date'              => '',
-                'reference'         => '',
+                'id'                =>'id',
+                'payment_method_id' => 'payment_method_id',
+                'amount'            => 'amount',
+                'date'              => 'date',
+                'reference'         => 'reference',
+
+                'created_at'=>'created_at',
+                'updated_at'=>'updated_at',
+                'deleted_at'=>'deleted_at'
             ],
         ],
+
         'payment_methods' => [
             'table' => 'payment_methods',
             'fields' => [
-                'name' => 'name',
+                'id'         =>'id',
+                'name'       => 'name',
+
+                'created_at'=>'created_at',
+                'updated_at'=>'updated_at',
+                'deleted_at'=>'deleted_at'
             ],
         ],
+
         'credits' => [
-            'table' => 'credits',
+            'table' => 'upaycredits',
             'fields' => [
-                'type'       => '',
-                'contact_id' => '',
-                'date'       => '',
-                'status'     => '',
-                'reference'  => '',
-                'amount'     => '',
-                'merchant_id'=> '',
+                'id'         =>'id',
+                'type'       => 'type',
+                'contact_id' => 'contact_id',
+                'date'       => 'date',
+                'status'     => 'status',
+                'reference'  => 'reference',
+                'amount'     => 'amount',
+                'merchant_id'=> 'merchant_id',
+
+                'created_at'=>'created_at',
+                'updated_at'=>'updated_at',
+                'deleted_at'=>'deleted_at'
             ],
         ],
 

@@ -6,6 +6,7 @@ use App\Enums\ThirdPartySyncProcessTypeEnum;
 use App\Http\Resources\Xero\XeroProductResource;
 use App\Models\Integrations\Product;
 use App\Services\Adaptors\Xero\BaseAdaptorXeroService;
+use Illuminate\Support\Facades\Log;
 
 class SendDeletedProductAdaptorXeroService extends BaseAdaptorXeroService
 {
@@ -15,15 +16,14 @@ class SendDeletedProductAdaptorXeroService extends BaseAdaptorXeroService
     protected $resourceClass = XeroProductResource::class;
     protected $syncType = ThirdPartySyncProcessTypeEnum::DELETE;
 
-    function getData(): \Illuminate\Database\Eloquent\Collection|array
+    function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
-        $clinicId = $this->thirdPartyAccess?->clinic_id;
-
-        return Product::where('clinic_id', $clinicId)
-            ->whereHas('xeroMapping')
-            ->onlyTrashed()
-            ->orderBy('deleted_at', 'DESC')
-            ->get();
-//        dd($c);
+        $products= Product::where(config('xero.mapping.products.fields.merchant_id'),$this->thirdPartyAccess->merchant_id)
+            ->whereHas('xeroMapping')->onlyTrashed();
+        if($object_id){
+            $products= $products->where(config('xero.mapping.products.fields.id'),$object_id);
+        }
+        Log::info(" {$products->count()} products to be Deleted" );
+        return $products->get();
     }
 }

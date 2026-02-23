@@ -32,7 +32,7 @@ class ExporterAdaptorServiceJob implements ShouldQueue
      */
     public function handle(): void
     {
-        dump('job for adaptor class: '.$this->adaptorClass);
+//        dump('job for adaptor class: '.$this->adaptorClass);
         try{
             (new $this->adaptorClass($this->thirdPartyAccess,$this->syncIntegration?->id))->export();
             if($this->syncIntegration){

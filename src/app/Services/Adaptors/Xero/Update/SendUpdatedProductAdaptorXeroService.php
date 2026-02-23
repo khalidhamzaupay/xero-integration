@@ -5,6 +5,7 @@ use App\Enums\ThirdPartySyncProcessTypeEnum;
 use App\Http\Resources\Xero\XeroProductResource;
 use App\Models\Integrations\Product;
 use App\Services\Adaptors\Xero\BaseAdaptorXeroService;
+use Illuminate\Support\Facades\Log;
 
 class SendUpdatedProductAdaptorXeroService extends BaseAdaptorXeroService
 {
@@ -14,16 +15,17 @@ class SendUpdatedProductAdaptorXeroService extends BaseAdaptorXeroService
     protected $resourceClass = XeroProductResource::class;
     protected $syncType = ThirdPartySyncProcessTypeEnum::UPDATE;
 
-    function getData(): \Illuminate\Database\Eloquent\Collection|array
+    function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
-        $clinicId = $this->thirdPartyAccess?->clinic_id;
-
-        return Product::with('item', 'item.unit', 'item.category')
-            ->where('clinic_id', $clinicId)
+        $products= Product::where(config('xero.mapping.products.fields.merchant_id'),$this->thirdPartyAccess->merchant_id)
             ->whereHas('xeroMapping', function ($q) {
-                $q->whereColumn('clinic_items.updated_at', '>', 'third_party_mappings.updated_at');
-            })
-            ->orderBy('updated_at', 'DESC')
-            ->get();
+                $q->whereColumn(config('xero.mapping.products.table').'.'.config('xero.mapping.products.fields.updated_at'), '>', 'third_party_mappings.updated_at');
+            });
+        if($object_id){
+            $products= $products->where(config('xero.mapping.products.fields.id'),$object_id);
+        }
+        $products =$products->orderBy(config('xero.mapping.products.fields.created_at'), 'DESC')->get();
+        Log::info(" {$products->count()} products to be updated" );
+        return $products;
     }
 }

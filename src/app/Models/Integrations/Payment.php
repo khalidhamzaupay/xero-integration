@@ -4,7 +4,7 @@ namespace App\Models\Integrations;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Payment extends Model
+class Payment extends BaseIntegrationModel
 {
     protected $table;
     protected $guarded = [];

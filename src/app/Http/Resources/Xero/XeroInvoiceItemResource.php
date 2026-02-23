@@ -9,22 +9,24 @@ class XeroInvoiceItemResource extends JsonResource
 {
     public function toArray($request): array
     {
+        $fields=config('xero.mapping.invoice_items.fields');
+        $product_fields=config('xero.mapping.products.fields');
+        $invoice_fields=config('xero.mapping.invoices.fields');
         // Sanitize description to avoid special characters
-        $description = Str::of($this->description ?? '')
+        $description = Str::of($this->{$fields['description']} ?? '')
             ->replaceMatches('/[^\w\s\-]/', '')
             ->limit(400);
 
         return [
-            "ItemCode"    => $this->item?->code,
+            "ItemCode"    => $this->product?->{$product_fields['code']},
             "Description" => $description,
-            "Quantity"    => (float) $this->quantity,
-            "UnitAmount"  => (float) $this->unit_price,
-            "AccountCode" => $this->invoice
-                ->clinic?->xeroThirdPartyAccess?->saleAccount?->mapping_id,
-            "TaxType"     => $this->taxGroup
-                ?->xeroMapping($this->invoice?->merchant_id)?->first()?->third_party_id,
-            "TaxAmount"   => (float) $this->tax_amount,
-            "DiscountRate"=> (float) ($this->discount_rate ?? 0),
+            "Quantity"    => (float) $this->{$fields['quantity']},
+            "UnitAmount"  => (float) $this->{$fields['unit_amount']},
+            "AccountCode" => $this->invoice?->merchant?->xeroThirdPartyAccess?->saleAccount?->mapping_id,
+//            "TaxType"     => $this->{$fields['taxGroup']}
+//                ?->xeroMapping($this->invoice?->{$invoice_fields['merchant_id']})?->first()?->third_party_id,
+            "TaxAmount"   => (float) $this->{$fields['tax_amount']},
+            "DiscountRate"=> (float) ($this->{$fields['discount_rate']} ?? 0),
         ];
     }
 }

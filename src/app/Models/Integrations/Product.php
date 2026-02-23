@@ -2,6 +2,9 @@
 
 namespace App\Models\Integrations;
 
+use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class Product extends BaseIntegrationModel
 {
     protected $table;
@@ -13,6 +16,14 @@ class Product extends BaseIntegrationModel
 
         $this->table = config('xero.mapping.products.table', 'products');
     }
-
+    public function merchant():BelongsTo
+    {
+        return $this->belongsTo(
+            Merchant::class,
+            config('xero.mapping.products.fields.merchant_id', 'merchant_id'),
+            'id'
+        );
+//        return $this->belongsTo(Merchant::class);
+    }
 
 }

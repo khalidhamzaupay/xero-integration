@@ -6,6 +6,7 @@ use App\Enums\ThirdPartySyncProcessTypeEnum;
 use App\Http\Resources\Xero\XeroVoidResource;
 use App\Models\Integrations\Invoice;
 use App\Services\Adaptors\Xero\BaseAdaptorXeroService;
+use Illuminate\Support\Facades\Log;
 
 class SendDeletedInvoiceAdaptorXeroService extends BaseAdaptorXeroService
 {
@@ -15,13 +16,16 @@ class SendDeletedInvoiceAdaptorXeroService extends BaseAdaptorXeroService
     protected $resourceClass = XeroVoidResource::class;
     protected $syncType = ThirdPartySyncProcessTypeEnum::VOID; //making the status voided because there's no delete option
 
-    function getData(): \Illuminate\Database\Eloquent\Collection|array
+    function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
-        $query = Invoice::where('clinic_id', $this->thirdPartyAccess?->clinic_id)
+        $query = Invoice::where(config('xero.mapping.invoices.fields.merchant_id'),$this->thirdPartyAccess->merchant_id)
             ->whereHas('xeroMapping')
-            ->onlyTrashed()
-            ->orderBy('deleted_at', 'DESC')
-            ->get();
-        return $query;
+            ->onlyTrashed();
+        if($object_id){
+            $query= $query->where(config('xero.mapping.invoices.fields.id'),$object_id);
+        }
+        Log::info(" {$query->count()} invoices to be Deleted" );
+
+        return $query->get();
     }
 }

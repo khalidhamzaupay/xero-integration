@@ -215,7 +215,7 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
             $this->syncObject($objectData, $try_no + 1);
         } else {
 //            dump('saving to fail');
-            $this->saveToFailedSync($objectData, $this->getType(), $message,$this->syncIntegrationId);
+            $this->saveToFailedSync($objectData, $this->getType(), $message,$this->syncIntegrationId,$this->thirdPartyAccess->merchant_id);
         }
     }
 

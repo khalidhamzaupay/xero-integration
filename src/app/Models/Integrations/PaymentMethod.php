@@ -6,7 +6,7 @@ use App\Enums\IntegrationsType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
-class PaymentMethod extends Model
+class PaymentMethod extends BaseIntegrationModel
 {
     protected $table;
     protected $guarded = [];
@@ -15,10 +15,5 @@ class PaymentMethod extends Model
     {
         parent::__construct($attributes);
         $this->table = config('xero.mapping.payment_methods.table', 'payment_methods');
-    }
-
-    public function xeroMapping($merchant_id =null):MorphOne
-    {
-        return $this->morphOne(ThirdPartyMapping::class,'object')->where('type',IntegrationsType::Xero->value)->where('merchant_id',$merchant_id);
     }
 }

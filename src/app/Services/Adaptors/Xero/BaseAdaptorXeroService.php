@@ -16,7 +16,7 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
     protected $syncType = ThirdPartySyncProcessTypeEnum::CREATE;
     protected $objectName;
     protected $objectIDName;
-    protected int $perBatch = 10; // max batch size
+    protected int $perBatch = 50; // max batch size
 
     abstract function getData($object_id): \Illuminate\Database\Eloquent\Collection|array;
 
@@ -30,7 +30,7 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
         $items = $this->getData($object_id);
 
         if (!$items || count($items) === 0) return;
-        if ($this->syncType !== ThirdPartySyncProcessTypeEnum::CREATE && count($items) >1) {
+        if ($this->syncType !== ThirdPartySyncProcessTypeEnum::CREATE || count($items) < $this->perBatch) {
             foreach ($items as $item) {
                 $this->syncObject($item);
             }

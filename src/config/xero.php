@@ -150,6 +150,8 @@ return [
                 'date'             => 'date',
                 'amount'           => 'amount',
                 'reference'        => 'reference',
+                'payment_id'       => 'payment_id',
+                'customer_id'      => 'customer_id',
                 'merchant_id'      => 'merchant_id',
 
                 'created_at'=>'created_at',

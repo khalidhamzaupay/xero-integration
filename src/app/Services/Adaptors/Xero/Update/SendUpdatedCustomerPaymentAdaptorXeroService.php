@@ -5,6 +5,7 @@ use App\Enums\ThirdPartySyncProcessTypeEnum;
 use App\Http\Resources\Xero\XeroCustomerPaymentResource;
 use App\Models\Integrations\CustomerPayment;
 use App\Services\Adaptors\Xero\BaseAdaptorXeroService;
+use Illuminate\Support\Facades\Log;
 
 class SendUpdatedCustomerPaymentAdaptorXeroService extends BaseAdaptorXeroService
 {
@@ -14,18 +15,18 @@ class SendUpdatedCustomerPaymentAdaptorXeroService extends BaseAdaptorXeroServic
     protected $resourceClass = XeroCustomerPaymentResource::class;
     protected $syncType = ThirdPartySyncProcessTypeEnum::UPDATE;
 
-    function getData(): \Illuminate\Database\Eloquent\Collection|array
+    function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
-        $query = CustomerPayment::query()
-            ->whereHas('payment', function ($q) {
-                $q->where('clinic_id', $this->thirdPartyAccess?->clinic_id);
-            })
+
+        $query = CustomerPayment::where(config('xero.mapping.customer_payments.fields.merchant_id'),$this->thirdPartyAccess->merchant_id)
             ->whereHas('xeroMapping', function ($q) {
-                $q->whereColumn('payment_invoices.updated_at', '>', 'third_party_mappings.updated_at');
+                $q->whereColumn(config('xero.mapping.customer_payments.table').'.'.config('xero.mapping.customer_payments.fields.updated_at'), '>', 'third_party_mappings.updated_at');
             })
-            ->with(['payment', 'invoice', 'payment.paymentMethod', 'payment.client.xeroMapping', 'invoice.xeroMapping', 'payment.paymentMethod']);
-
-
-        return $query->orderBy('created_at', 'DESC')->get();
+            ->with(['invoice','invoice.xeroMapping','payment.paymentMethod']);
+        if($object_id){
+            $query= $query->where(config('xero.mapping.customer_payments.fields.id'),$object_id);
+        }
+        Log::info(" {$query->count()} customer_payments to be Updated" );
+        return $query->orderBy(config('xero.mapping.customer_payments.fields.created_at'), 'DESC')->get();
     }
 }

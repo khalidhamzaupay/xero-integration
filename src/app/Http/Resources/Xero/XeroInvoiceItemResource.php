@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Xero;
 
+use App\Enums\Xero\XeroTaxTypesEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
@@ -18,14 +19,15 @@ class XeroInvoiceItemResource extends JsonResource
             ->limit(400);
 
         return [
-            "ItemCode"    => $this->product?->{$product_fields['code']},
+            "ItemCode"    => $this->{$fields['product_id']} ?? $this->product?->{$product_fields['code']},
             "Description" => $description,
             "Quantity"    => (float) $this->{$fields['quantity']},
             "UnitAmount"  => (float) $this->{$fields['unit_amount']},
             "AccountCode" => $this->invoice?->merchant?->xeroThirdPartyAccess?->saleAccount?->mapping_id,
+            "TaxType"     => XeroTaxTypesEnum::NONE->value,
 //            "TaxType"     => $this->{$fields['taxGroup']}
 //                ?->xeroMapping($this->invoice?->{$invoice_fields['merchant_id']})?->first()?->third_party_id,
-            "TaxAmount"   => (float) $this->{$fields['tax_amount']},
+            "TaxAmount"   => 0,
             "DiscountRate"=> (float) ($this->{$fields['discount_rate']} ?? 0),
         ];
     }

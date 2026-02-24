@@ -25,4 +25,11 @@ class Invoice extends BaseIntegrationModel
     {
         return $this->belongsTo(Customer::class, 'contact_id');
     }
+    public function merchant():BelongsTo
+    {
+        return $this->belongsTo(
+            Merchant::class, config('xero.mapping.invoices.fields.merchant_id', 'merchant_id'),
+            'id'
+        );
+    }
 }

@@ -22,5 +22,9 @@ class InvoiceItem extends BaseIntegrationModel
     {
         return $this->belongsTo(Product::class,'product_id');
     }
+    public function invoice():BelongsTo
+    {
+        return $this->belongsTo(Invoice::class);
+    }
 
 }

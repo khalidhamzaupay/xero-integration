@@ -74,7 +74,6 @@ return [
             'table' => 'upayinvoices',
             'fields' => [
                 'id'         =>'id',
-                'type'       => 'type',
                 'contact_id' => 'contact_id',
                 'date'       => 'date',
                 'due_date'   => 'due_date',
@@ -82,7 +81,6 @@ return [
                 'reference'  => 'reference',
                 'notes'      => 'notes',
                 'subtotal'   => 'subtotal',
-                'total_tax'  => 'total_tax',
                 'total'      => 'total',
                 'merchant_id'=>'merchant_id',
 
@@ -101,8 +99,6 @@ return [
                 'quantity'      => 'quantity',
                 'unit_amount'   => 'unit_amount',
                 'account_code'  => 'account_code',
-                'tax_type'      => 'tax_type',
-                'tax_amount'    => 'tax_amount',
                 'discount_rate' => 'discount_rate',
 
                 'created_at'=>'created_at',

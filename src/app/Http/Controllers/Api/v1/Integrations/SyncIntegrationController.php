@@ -116,6 +116,7 @@ class SyncIntegrationController extends ApplicationController
         );
         $method = strtolower($processEnum->getLabel());
         $object = $request->get('object_name');
+        $model = SyncedObjectsEnum::from($object)->model();
         $thirdPartyAccess = ThirdPartyAccess::where('type',$type)
             ->where('merchant_id',$request->get('merchant_id'))
             ->first();
@@ -124,8 +125,12 @@ class SyncIntegrationController extends ApplicationController
         try{
             (new $adaptorClass($thirdPartyAccess,$syncIntegration?->id))->export($request['object_id']);
             $syncIntegration->update(['end_at' => now(), 'status' => SyncIntegrationStatusEnum::SUCCESS->value]);
+            if($model::find($request->get('object_id'))?->xeroMapping)
+                $message="the object has been synced successfully";
+            else
+                $message="cannot sync this object. please check the error returns from Xero";
             $prams = [
-                "data" => ["message" => "the object has been synced successfully"],
+                "data" => ["message" => $message],
                 "redirectTo" => ["route" => "{$this->resourceRoute}.index"]
             ];
         }catch (\Exception $e){

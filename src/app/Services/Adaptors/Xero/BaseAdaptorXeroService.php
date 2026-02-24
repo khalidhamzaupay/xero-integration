@@ -30,8 +30,7 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
         $items = $this->getData($object_id);
 
         if (!$items || count($items) === 0) return;
-
-        if ($this->syncType !== ThirdPartySyncProcessTypeEnum::CREATE) {
+        if ($this->syncType !== ThirdPartySyncProcessTypeEnum::CREATE && count($items) >1) {
             foreach ($items as $item) {
                 $this->syncObject($item);
             }

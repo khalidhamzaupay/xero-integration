@@ -4,7 +4,9 @@
 namespace App\Services\Adaptors\Xero\Create;
 
 use App\Http\Resources\Xero\XeroCustomerPaymentResource;
+use App\Models\Integrations\CustomerPayment;
 use App\Services\Adaptors\Xero\BaseAdaptorXeroService;
+use Illuminate\Support\Facades\Log;
 
 class SendCreatedCustomerPaymentAdaptorXeroService extends BaseAdaptorXeroService
 {
@@ -13,21 +15,16 @@ class SendCreatedCustomerPaymentAdaptorXeroService extends BaseAdaptorXeroServic
     protected $objectIDName = 'PaymentID';
     protected $resourceClass = XeroCustomerPaymentResource::class;
 
-    function getData(): \Illuminate\Database\Eloquent\Collection|array
+    function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
-        $query = PaymentInvoice::query()
-            ->whereHas('payment', function ($q) {
-                $q->where('clinic_id', $this->thirdPartyAccess?->clinic_id)
-                    ->where('flow', PaymentFlowEnum::INCOME->value)
-                    ->whereHas('client.xeroMapping');
-            })
+        $query = CustomerPayment::where(config('xero.mapping.customer_payments.fields.merchant_id'),$this->thirdPartyAccess->merchant_id)
             ->whereDoesntHave('xeroMapping')
             ->whereHas('invoice.xeroMapping')
-            ->with(['payment','invoice','payment.paymentMethod','payment.client.xeroMapping','invoice.xeroMapping','payment.paymentMethod']);
-
-        if ($this->thirdPartyAccess->starts_at) {
-            $query->where('payment_date', '>=', $this->thirdPartyAccess->starts_at);
+            ->with(['invoice','invoice.xeroMapping','payment.paymentMethod']);
+        if($object_id){
+            $query= $query->where(config('xero.mapping.customer_payments.fields.id'),$object_id);
         }
-        return $query->orderBy('created_at', 'DESC')->get();
+        Log::info(" {$query->count()} customer_payments to be Created" );
+        return $query->orderBy(config('xero.mapping.customer_payments.fields.created_at'), 'DESC')->get();
     }
 }

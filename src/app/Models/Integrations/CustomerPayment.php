@@ -19,7 +19,20 @@ class CustomerPayment extends BaseIntegrationModel
     {
         return $this->belongsTo(Invoice::class);
     }
-
+//    public function customer()
+//    {
+//        return $this->hasOneThrough(Customer::class,
+//            Invoice::class,
+//            'id', // Foreign key on invoices table (mapped id)
+//            'id', // Foreign key on customers table
+//            'invoice_id', // Local key on customer_payments table
+//            'contact_id'  // Local key on invoices table (mapped contact_id)
+//        );
+//    }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
     public function payment()
     {
         return $this->belongsTo(Payment::class);

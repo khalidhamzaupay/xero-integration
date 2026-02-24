@@ -6,14 +6,14 @@ namespace App\Http\Resources\Xero;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class XeroVoidResource extends JsonResource
+class XeroDeleteResource extends JsonResource
 {
 
     public function toArray(Request $request): array
     {
         $data = [
 
-            "Status" => "VOIDED",
+            "Status" => "DELETED",
 
         ];
 

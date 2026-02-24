@@ -24,11 +24,11 @@ class SingleSyncFormRequest extends FormRequest
      */
     public function rules()
     {
-
+        $merchantTable = config('xero.mapping.merchants.table', 'users');
         return [
-            'merchant_id'       => 'required|exists:users,id',
+            'merchant_id'       => ['required',"exists:{$merchantTable},id"],
             'object_name'       => ['required',Rule::enum(SyncedObjectsEnum::class)],
-            'object_id'         => 'required',
+            'object_id'         => ['exclude_if:method,' . ThirdPartySyncProcessTypeEnum::DELETE->value,'required'],
             'type'              => ['required', Rule::enum(IntegrationsType::class)],
             'method'            => ['required', Rule::enum(ThirdPartySyncProcessTypeEnum::class)],
         ];
@@ -37,10 +37,9 @@ class SingleSyncFormRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if (! $this->filled(['object_name', 'object_id'])) {
+            if (! $this->filled(['object_name', 'object_id']) || ($this->input('method') == ThirdPartySyncProcessTypeEnum::DELETE->value)) {
                 return;
             }
-
             $enum = SyncedObjectsEnum::from($this->object_name);
             $modelClass = $enum->model();
 

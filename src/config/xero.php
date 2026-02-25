@@ -94,6 +94,7 @@ return [
             'table' => 'upayinvoice_items',
             'fields' => [
                 'id'            =>'id',
+                'invoice_id'    => 'invoice_id',
                 'product_id'    => 'item_code',
                 'description'   => 'description',
                 'quantity'      => 'quantity',
@@ -114,7 +115,6 @@ return [
                 'credit_note_number' => 'credit_note_number',
                 'date'               => 'date',
                 'contact_id'         => 'contact_id',
-                'line_items'         => 'line_items',
                 'status'             => 'status',
                 'invoice_id'         => 'invoice_id',
                 'amount'             => 'amount',
@@ -129,6 +129,7 @@ return [
             'table' => 'upayrefund_items',
             'fields' => [
                 'id'           =>'id',
+                'refund_id'    => 'refund_id',
                 'description'  => 'description',
                 'quantity'     => 'quantity',
                 'unit_amount'  => 'unit_amount',
@@ -191,13 +192,13 @@ return [
             'table' => 'upaycredits',
             'fields' => [
                 'id'         =>'id',
-                'type'       => 'type',
-                'contact_id' => 'contact_id',
+                'customer_id'=> 'contact_id',
                 'date'       => 'date',
                 'status'     => 'status',
-                'reference'  => 'reference',
                 'amount'     => 'amount',
+                'payment_id' => 'payment_id',
                 'merchant_id'=> 'merchant_id',
+                'description'=> 'description',
 
                 'created_at'=>'created_at',
                 'updated_at'=>'updated_at',

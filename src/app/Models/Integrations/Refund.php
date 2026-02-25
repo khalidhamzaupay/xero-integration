@@ -18,6 +18,6 @@ class Refund extends BaseIntegrationModel
 
     public function items()
     {
-        return $this->hasMany(RefundItem::class);
+        return $this->hasMany(RefundItem::class,config('xero.mapping.refund_items.fields.refund_id', 'refund_id'));
     }
 }

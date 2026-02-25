@@ -125,8 +125,10 @@ class SyncIntegrationController extends ApplicationController
         try{
             (new $adaptorClass($thirdPartyAccess,$syncIntegration?->id))->export($request['object_id']);
             $syncIntegration->update(['end_at' => now(), 'status' => SyncIntegrationStatusEnum::SUCCESS->value]);
-            if($model::find($request->get('object_id'))?->xeroMapping)
+            if($model::find($request->get('object_id'))?->xeroMapping && $method != 'delete')
                 $message="the object has been synced successfully";
+            elseif(! $model::find($request->get('object_id'))?->xeroMapping && $method == 'delete')
+                $message="the object has been deleted";
             else
                 $message="cannot sync this object. please check the error returns from Xero";
             $prams = [

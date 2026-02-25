@@ -3,6 +3,7 @@
 namespace App\Models\Integrations;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RefundItem extends BaseIntegrationModel
 {
@@ -14,5 +15,10 @@ class RefundItem extends BaseIntegrationModel
     {
         parent::__construct($attributes);
         $this->table = config('xero.mapping.refund_items.table', 'refund_items');
+    }
+
+    public function refund():BelongsTo
+    {
+        return $this->belongsTo(Refund::class, config('xero.mapping.refund_items.fields.refund_id', 'refund_id'));
     }
 }

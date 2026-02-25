@@ -2,7 +2,9 @@
 namespace App\Services\Adaptors\Xero\Create;
 
 use App\Http\Resources\Xero\XeroReturnInvoiceResource;
+use App\Models\Integrations\Refund;
 use App\Services\Adaptors\Xero\BaseAdaptorXeroService;
+use Illuminate\Support\Facades\Log;
 
 class SendCreatedReturnInvoiceAdaptorXeroService extends BaseAdaptorXeroService
 {
@@ -11,24 +13,18 @@ class SendCreatedReturnInvoiceAdaptorXeroService extends BaseAdaptorXeroService
     protected $objectIDName = 'CreditNoteID';
     protected $resourceClass = XeroReturnInvoiceResource::class;
 
-    public function getData(): \Illuminate\Database\Eloquent\Collection|array
+    public function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
-        $clinicId = $this->thirdPartyAccess?->clinic_id;
-
-        $query = ReturnModel::where('clinic_id', $clinicId)
-            ->with([
-                'xeroMapping',
-                'returnItems',
-                'invoice.xeroMapping',
-                'invoice.client.xeroMapping',
-            ])
-            ->whereHas('returnItems')
+        $query = Refund::whereHas('items')
+            ->whereHas('invoice')
             ->whereHas('invoice.xeroMapping')
-            ->whereDoesntHave('xeroMapping');
+            ->whereDoesntHave('xeroMapping')
+            ->with(['invoice.xeroMapping','invoice.client.xeroMapping', 'items.product', 'items.product.xeroMapping']);
 
-        if ($this->thirdPartyAccess->starts_at) {
-            $query->where('date', '>=', $this->thirdPartyAccess->starts_at);
+        if($object_id){
+            $query= $query->where(config('xero.mapping.refunds.fields.id'),$object_id);
         }
-        return $query->orderBy('created_at', 'DESC')->get();
+        Log::info(" {$query->count()} refunds to be Created" );
+        return $query->orderBy(config('xero.mapping.refunds.fields.created_at'), 'DESC')->get();
     }
 }

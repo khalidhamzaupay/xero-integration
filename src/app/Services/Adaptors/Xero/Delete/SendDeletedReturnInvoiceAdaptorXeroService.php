@@ -6,6 +6,7 @@ use App\Enums\ThirdPartySyncProcessTypeEnum;
 use App\Http\Resources\Xero\XeroReturnInvoiceResource;
 use App\Models\Integrations\Refund;
 use App\Services\Adaptors\Xero\BaseAdaptorXeroService;
+use Illuminate\Support\Facades\Log;
 
 class SendDeletedReturnInvoiceAdaptorXeroService extends BaseAdaptorXeroService
 {
@@ -15,14 +16,16 @@ class SendDeletedReturnInvoiceAdaptorXeroService extends BaseAdaptorXeroService
     protected $resourceClass = XeroReturnInvoiceResource::class;
     protected $syncType = ThirdPartySyncProcessTypeEnum::DELETE;
 
-    public function getData(): \Illuminate\Database\Eloquent\Collection|array
+    public function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
 
-        return Refund::where('clinic_id', $this->thirdPartyAccess?->clinic_id)
-            ->whereHas('xeroMapping')
-            ->orderBy('deleted_at', 'DESC')
-            ->onlyTrashed()
-            ->get();
+        $query = Refund::whereHas('xeroMapping')
+            ->onlyTrashed();
+        if($object_id){
+            $query= $query->where(config('xero.mapping.refunds.fields.id'),$object_id);
+        }
+        Log::info(" {$query->count()} refunds to be Deleted" );
 
+        return $query->get();
     }
 }

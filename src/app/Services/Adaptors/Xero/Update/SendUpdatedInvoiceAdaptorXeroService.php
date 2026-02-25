@@ -26,6 +26,6 @@ class SendUpdatedInvoiceAdaptorXeroService extends BaseAdaptorXeroService
             $query= $query->where(config('xero.mapping.invoices.fields.id'),$object_id);
         }
         Log::info(" {$query->count()} invoices to be Updated" );
-        return $query->orderBy('created_at', 'DESC')->get();
+        return $query->orderBy(config('xero.mapping.invoices.fields.created_at'), 'DESC')->get();
     }
 }

@@ -112,10 +112,8 @@ return [
             'table' => 'upayrefunds',
             'fields' => [
                 'id'                 =>'id',
-                'credit_note_number' => 'credit_note_number',
                 'date'               => 'date',
                 'contact_id'         => 'contact_id',
-                'status'             => 'status',
                 'invoice_id'         => 'invoice_id',
                 'amount'             => 'amount',
 
@@ -133,8 +131,7 @@ return [
                 'description'  => 'description',
                 'quantity'     => 'quantity',
                 'unit_amount'  => 'unit_amount',
-                'item_code'    => 'item_code',
-                'tax_type'     => 'tax_type',
+                'product_id'   => 'item_code',
 
                 'created_at'=>'created_at',
                 'updated_at'=>'updated_at',

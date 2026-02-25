@@ -17,6 +17,6 @@ class Payment extends BaseIntegrationModel
 
     public function paymentMethod()
     {
-        return $this->belongsTo(PaymentMethod::class);
+        return $this->belongsTo(PaymentMethod::class,config('xero.mapping.payments.fields.payment_method_id', 'payment_method_id'));
     }
 }

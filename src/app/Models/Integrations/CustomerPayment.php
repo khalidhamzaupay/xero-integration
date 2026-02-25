@@ -17,7 +17,7 @@ class CustomerPayment extends BaseIntegrationModel
 
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(Invoice::class, config('xero.mapping.customer_payments.fields.invoice_id', 'invoice_id'));
     }
 //    public function customer()
 //    {
@@ -31,10 +31,10 @@ class CustomerPayment extends BaseIntegrationModel
 //    }
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id');
+        return $this->belongsTo(Customer::class, config('xero.mapping.customer_payments.fields.customer_id', 'customer_id'));
     }
     public function payment()
     {
-        return $this->belongsTo(Payment::class);
+        return $this->belongsTo(Payment::class, config('xero.mapping.customer_payments.fields.payment_id', 'payment_id'));
     }
 }

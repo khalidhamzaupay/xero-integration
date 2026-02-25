@@ -14,8 +14,12 @@ class Credit extends BaseIntegrationModel
         $this->table = config('xero.mapping.credits.table', 'credits');
     }
 
-    public function client()
+    public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id');
+        return $this->belongsTo(Customer::class, config('xero.mapping.credits.fields.customer_id', 'customer_id'));
+    }
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class, config('xero.mapping.credits.fields.payment_id', 'payment_id'));
     }
 }

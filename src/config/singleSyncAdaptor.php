@@ -24,13 +24,11 @@ return [
 
         'customer_payment' => [
             'create' => \App\Services\Adaptors\Xero\Create\SendCreatedCustomerPaymentAdaptorXeroService::class,
-            'update' => \App\Services\Adaptors\Xero\Update\SendUpdatedCustomerPaymentAdaptorXeroService::class,
             'delete' => \App\Services\Adaptors\Xero\Delete\SendDeletedCustomerPaymentAdaptorXeroService::class,
         ],
 
         'credit' => [
             'create' => \App\Services\Adaptors\Xero\Create\SendCreatedCreditAdaptorXeroService::class,
-            'update' => \App\Services\Adaptors\Xero\Update\SendUpdatedCreditAdaptorXeroService::class,
             'delete' => \App\Services\Adaptors\Xero\Delete\SendDeletedCreditAdaptorXeroService::class,
         ],
 

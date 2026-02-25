@@ -21,4 +21,8 @@ class RefundItem extends BaseIntegrationModel
     {
         return $this->belongsTo(Refund::class, config('xero.mapping.refund_items.fields.refund_id', 'refund_id'));
     }
+    public function product():BelongsTo
+    {
+        return $this->belongsTo(Product::class, config('xero.mapping.refund_items.fields.product_id', 'product_id'));
+    }
 }

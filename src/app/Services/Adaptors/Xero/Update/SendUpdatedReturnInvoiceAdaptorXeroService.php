@@ -5,6 +5,7 @@ use App\Enums\ThirdPartySyncProcessTypeEnum;
 use App\Http\Resources\Xero\XeroReturnInvoiceResource;
 use App\Models\Integrations\Refund;
 use App\Services\Adaptors\Xero\BaseAdaptorXeroService;
+use Illuminate\Support\Facades\Log;
 
 class SendUpdatedReturnInvoiceAdaptorXeroService extends BaseAdaptorXeroService
 {
@@ -15,20 +16,17 @@ class SendUpdatedReturnInvoiceAdaptorXeroService extends BaseAdaptorXeroService
     protected $syncType = ThirdPartySyncProcessTypeEnum::UPDATE;
 
 
-    public function getData(): \Illuminate\Database\Eloquent\Collection|array
+    public function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
-        $query = Refund::where('clinic_id', $this->thirdPartyAccess?->clinic_id)
-            ->with([
-                'xeroMapping',
-                'returnItems',
-                'invoice.xeroMapping',
-                'invoice.client.xeroMapping',
-            ])
-            ->whereHas('xeroMapping', function ($q) {
-                $q->whereColumn('returns.updated_at', '>', 'third_party_mappings.updated_at');
+        $query = Refund::whereHas('xeroMapping', function ($q) {
+                $q->whereColumn(config('xero.mapping.refunds.table').'.'.config('xero.mapping.refunds.fields.updated_at'), '>', 'third_party_mappings.updated_at');
             })
-            ->with(['xeroMapping', 'payment', 'client']);
+            ->with(['invoice.xeroMapping', 'items.product', 'items.product.xeroMapping']);
 
-        return $query->orderBy('created_at', 'DESC')->get();
+        if($object_id){
+            $query= $query->where(config('xero.mapping.refunds.fields.id'),$object_id);
+        }
+        Log::info(" {$query->count()} refunds to be Updated" );
+        return $query->orderBy(config('xero.mapping.refunds.fields.created_at'), 'DESC')->get();
     }
 }

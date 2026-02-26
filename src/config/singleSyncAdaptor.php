@@ -42,6 +42,11 @@ return [
                 ],
             'delete' => [\App\Services\Adaptors\Xero\Delete\SendDeletedReturnInvoiceAdaptorXeroService::class],
         ],
+        'return_payment' => [
+            'create' => [\App\Services\Adaptors\Xero\Create\SendReturnPaymentAdaptorXeroService::class],
+            'delete' => [\App\Services\Adaptors\Xero\Delete\SendDeletedReturnPaymentAdaptorXeroService::class],
+
+        ]
 
     ],
 

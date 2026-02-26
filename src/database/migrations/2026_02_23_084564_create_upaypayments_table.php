@@ -11,6 +11,7 @@
 //        Schema::create('upaypayments', function (Blueprint $table) {
 //            $table->id();
 //            $table->unsignedBigInteger('payment_method_id');
+//            $table->unsignedBigInteger('merchant_id');
 //            $table->decimal('amount', 15, 4);
 //            $table->date('date');
 //            $table->string('reference')->nullable();

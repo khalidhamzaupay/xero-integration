@@ -116,6 +116,7 @@ return [
                 'contact_id'         => 'contact_id',
                 'invoice_id'         => 'invoice_id',
                 'amount'             => 'amount',
+                'merchant_id'        => 'merchant_id',
 
                 'created_at'=>'created_at',
                 'updated_at'=>'updated_at',
@@ -144,7 +145,6 @@ return [
             'fields' => [
                 'id'               =>'id',
                 'invoice_id'       => 'invoice_id',
-                'account_code'     => 'account_code',
                 'date'             => 'date',
                 'amount'           => 'amount',
                 'reference'        => 'reference',
@@ -166,6 +166,7 @@ return [
                 'amount'            => 'amount',
                 'date'              => 'date',
                 'reference'         => 'reference',
+                'merchant_id'       => 'merchant_id',
 
                 'created_at'=>'created_at',
                 'updated_at'=>'updated_at',
@@ -178,11 +179,29 @@ return [
             'fields' => [
                 'id'         =>'id',
                 'name'       => 'name',
+                'merchant_id'=> 'merchant_id',
 
                 'created_at'=>'created_at',
                 'updated_at'=>'updated_at',
                 'deleted_at'=>'deleted_at'
             ],
+        ],
+        'return_payments' => [
+            'table' => 'upayreturn_payments',
+            'fields' => [
+                'id'                => 'id',
+                'amount'            => 'u_amount',
+                'refund_id'         => 'u_refund_id',
+                'merchant_id'       => 'u_merchant_id',
+                'customer_id'       => 'u_customer_id',
+                'payment_method_id' => 'u_payment_method_id',
+                'date'              => 'u_date',
+                'reference'         => 'u_reference',
+
+                'created_at'        => 'created_at',
+                'updated_at'        => 'updated_at',
+                'deleted_at'        => 'deleted_at'
+            ]
         ],
 
         'credits' => [

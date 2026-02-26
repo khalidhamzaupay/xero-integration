@@ -97,6 +97,7 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
         $url = "{$url}/{$this->endpoint_ext}";
         if($this->tag=='Allocated')
             $method='put';
+//        dd($url, $method, $payload);
         $response = Http::withHeaders([
             'Authorization' => "Bearer " . $this->thirdPartyAccess->access_token,
             'Xero-tenant-id' => $this->thirdPartyAccess->organization?->third_party_id,

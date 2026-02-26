@@ -9,6 +9,7 @@ use App\Models\Integrations\Invoice;
 use App\Models\Integrations\Payment;
 use App\Models\Integrations\Product;
 use App\Models\Integrations\Refund;
+use App\Models\Integrations\ReturnPayment;
 use App\Traits\BaseEnum;
 
 enum SyncedObjectsEnum: string
@@ -23,6 +24,7 @@ enum SyncedObjectsEnum: string
     case CUSTOMER_PAYMENT  = 'customer_payment';
     case REFUND  = 'refund';
     case CREDIT  = 'credit';
+    case RETURN_PAYMENT  = 'return_payment';
 
     public function model(): string
     {
@@ -34,6 +36,7 @@ enum SyncedObjectsEnum: string
             self::CUSTOMER_PAYMENT  => CustomerPayment::class,
             self::REFUND  => Refund::class,
             self::CREDIT  => Credit::class,
+            self::RETURN_PAYMENT  => ReturnPayment::class,
         };
     }
 

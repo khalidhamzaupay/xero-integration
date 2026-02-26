@@ -15,7 +15,8 @@ class SendCreatedReturnInvoiceAdaptorXeroService extends BaseAdaptorXeroService
 
     public function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
-        $query = Refund::whereHas('items')
+        $query = Refund::where(config('xero.mapping.refunds.fields.merchant_id'),$this->thirdPartyAccess->merchant_id)
+            ->whereHas('items')
             ->whereHas('invoice')
             ->whereHas('invoice.xeroMapping')
             ->whereDoesntHave('xeroMapping')

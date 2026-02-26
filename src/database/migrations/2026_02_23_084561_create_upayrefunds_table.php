@@ -17,6 +17,7 @@
 //            $table->text('line_items')->nullable();
 //            $table->string('status')->nullable();
 //            $table->unsignedBigInteger('invoice_id');
+//            $table->unsignedBigInteger('merchant_id');
 //            $table->decimal('amount', 15, 4)->nullable();
 //
 //            $table->timestamps();

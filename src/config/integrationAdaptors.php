@@ -13,6 +13,7 @@ return [
 //            \App\Services\Adaptors\Xero\Create\SendCreatedCustomerPaymentAdaptorXeroService::class,
 //            \App\Services\Adaptors\Xero\Create\SendCreatedCreditAdaptorXeroService::class,
 //            \App\Services\Adaptors\Xero\Create\SendCreatedReturnInvoiceAdaptorXeroService::class,
+            \App\Services\Adaptors\Xero\Create\SendReturnPaymentAdaptorXeroService::class,
 //            //Update
 //            \App\Services\Adaptors\Xero\Update\SendUpdatedCustomerAdaptorXeroService::class,
 //            \App\Services\Adaptors\Xero\Update\SendUpdatedProductAdaptorXeroService::class,
@@ -25,6 +26,7 @@ return [
 //            \App\Services\Adaptors\Xero\Delete\SendDeletedCustomerPaymentAdaptorXeroService::class,
 //            \App\Services\Adaptors\Xero\Delete\SendDeletedCreditAdaptorXeroService::class,
 //            \App\Services\Adaptors\Xero\Delete\SendDeletedReturnInvoiceAdaptorXeroService::class,
+            \App\Services\Adaptors\Xero\Delete\SendDeletedReturnPaymentAdaptorXeroService::class,
 
         ]
     ],

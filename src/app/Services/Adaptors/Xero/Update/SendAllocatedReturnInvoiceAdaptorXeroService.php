@@ -21,7 +21,8 @@ class SendAllocatedReturnInvoiceAdaptorXeroService extends BaseAdaptorXeroServic
 
     public function getData($object_id=null): \Illuminate\Database\Eloquent\Collection|array
     {
-        $query = Refund::whereHas('xeroMapping', function ($q) {
+        $query = Refund::where(config('xero.mapping.credits.fields.merchant_id'),$this->thirdPartyAccess->merchant_id)
+            ->whereHas('xeroMapping', function ($q) {
             $q->where(function($sub) {
                 $sub->where('third_party_tag', '!=', $this->tag)
                     ->orWhereNull('third_party_tag');

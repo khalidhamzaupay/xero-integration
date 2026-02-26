@@ -21,6 +21,10 @@ class Invoice extends BaseIntegrationModel
     {
         return $this->hasMany(InvoiceItem::class,config('xero.mapping.invoice_items.fields.invoice_id', 'invoice_id'));
     }
+    public function refunds()
+    {
+        return $this->hasMany(Refund::class,config('xero.mapping.refunds.fields.invoice_id', 'invoice_id'));
+    }
     public function client():BelongsTo
     {
         return $this->belongsTo(Customer::class, config('xero.mapping.invoices.fields.contact_id', 'contact_id'));

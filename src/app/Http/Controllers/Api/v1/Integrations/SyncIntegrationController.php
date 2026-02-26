@@ -121,20 +121,22 @@ class SyncIntegrationController extends ApplicationController
             ->where('merchant_id',$request->get('merchant_id'))
             ->first();
         $syncIntegration = SyncIntegration::create(['merchant_id' => $thirdPartyAccess->merchant_id, 'method' => $method, 'type' => $type]);
-        $adaptorClass=config('singleSyncAdaptor.'.$type.'.'.$object.'.'.$method);
+        $adaptorClasses=config('singleSyncAdaptor.'.$type.'.'.$object.'.'.$method);
         try{
-            (new $adaptorClass($thirdPartyAccess,$syncIntegration?->id))->export($request['object_id']);
-            $syncIntegration->update(['end_at' => now(), 'status' => SyncIntegrationStatusEnum::SUCCESS->value]);
-            if($model::find($request->get('object_id'))?->xeroMapping && $method != 'delete')
-                $message="the object has been synced successfully";
-            elseif(! $model::find($request->get('object_id'))?->xeroMapping && $method == 'delete')
-                $message="the object has been deleted";
-            else
-                $message="cannot sync this object. please check the error returns from Xero";
-            $prams = [
-                "data" => ["message" => $message],
-                "redirectTo" => ["route" => "{$this->resourceRoute}.index"]
-            ];
+            foreach ($adaptorClasses as $adaptorClass) {
+                (new $adaptorClass($thirdPartyAccess, $syncIntegration?->id))->export($request['object_id']);
+                $syncIntegration->update(['end_at' => now(), 'status' => SyncIntegrationStatusEnum::SUCCESS->value]);
+                if ($model::find($request->get('object_id'))?->xeroMapping && $method != 'delete')
+                    $message = "the object has been synced successfully";
+                elseif (!$model::find($request->get('object_id'))?->xeroMapping && $method == 'delete')
+                    $message = "the object has been deleted";
+                else
+                    $message = "cannot sync this object. please check the error returns from Xero";
+                $prams = [
+                    "data" => ["message" => $message],
+                    "redirectTo" => ["route" => "{$this->resourceRoute}.index"]
+                ];
+            }
         }catch (\Exception $e){
             $syncIntegration->update(['end_at' => now(), 'status' => SyncIntegrationStatusEnum::FAIL->value]);
             $prams = [

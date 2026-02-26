@@ -47,8 +47,7 @@ class HandleXeroCallbackService
             'grant_type'    => 'authorization_code',
             'code'          => $this->code,
             'client_id'     => $this->thirdPartyAccess->client_id,
-//            'redirect_uri'  => route('xero.callback'),
-            'redirect_uri'  => 'https://middleware.dignitihealthcare.com/show-request',
+            'redirect_uri'  => route('xero.callback'),
             'client_secret' => $this->thirdPartyAccess->client_secret,
         ]);
 

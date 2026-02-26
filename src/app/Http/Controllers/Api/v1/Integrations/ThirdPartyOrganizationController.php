@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1\Integrations;
 
 use App\Http\Controllers\ApplicationController;
-use App\Http\Resources\ThirdPartyOrganization\ThirdPartyOrganizationResource;
+use App\Http\Resources\ThirdPartyOrganization\ThirdPartyMappingResource;
 use App\Models\Integrations\ThirdPartyOrganization;
 use App\Traits\Responder;
 use Illuminate\Http\Request;
@@ -35,7 +35,7 @@ class ThirdPartyOrganizationController extends ApplicationController
                 "data" => [
                     "title"            => 'show-all organizations',
                     "alias"            => $this->moduleAlias,
-                    "organizations" => ThirdPartyOrganizationResource::collection($index)
+                    "organizations" => ThirdPartyMappingResource::collection($index)
                 ],
                 "view" => "{$this->moduleAlias}::{$this->viewPath}.index"
             ];

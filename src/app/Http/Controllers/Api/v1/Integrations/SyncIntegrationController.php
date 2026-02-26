@@ -29,9 +29,28 @@ class SyncIntegrationController extends ApplicationController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request,$merchant_id)
     {
-        //
+        $query = SyncIntegration::where('merchant_id', $merchant_id)
+            ->with(['createdBy']);
+        foreach (SyncIntegration::$allowedFilersExact as $filter) {
+            if ($request->has($filter)) {
+                $query->where($filter, $request->get($filter));
+            }
+        }
+
+        $sortField = $request->get('sort', 'created_at'); // Default sort
+        $direction = $request->get('direction', 'desc');
+
+        if (in_array($sortField, SyncIntegration::$allowedSorts)) {
+            $query->orderBy($sortField, $direction);
+        }
+
+        $perPage = $request->get('per_page', 15);
+        $integrations = $query->paginate($perPage);
+
+        return SyncIntegrationResource::collection($integrations);
+
     }
 
     /**

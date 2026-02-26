@@ -68,10 +68,21 @@ class ThirdPartyMapping extends Model
     ];
 
     public static $allowedFilters = [
+        'type',             // e.g., 'refund', 'invoice'
+        'third_party_tag',  // e.g., 'Allocated', 'Paid'
+        'object_type',      // Filter by the Model class
+    ];
+
+    public static $allowedSorts = [
+        'created_at',
+        'type',
+        'third_party_tag'
     ];
 
     public static $allowedFilersExact = [
         'id',
+        'object_id',
+        'third_party_id', // Search for a specific Xero ID
     ];
 
     public static $allowedFilersScope = [

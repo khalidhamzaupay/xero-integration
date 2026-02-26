@@ -102,13 +102,7 @@ class ThirdPartyAccess extends Model
     ];
 
     public static $allowedSorts = [
-        'type',
-        'access_key',
-        'access_token',
-        'client_id',
-        'client_secret',
-        'expires_at',
-        'merchant_id'
+        'created_at',
     ];
 
     public static $allowedFilersExact = [

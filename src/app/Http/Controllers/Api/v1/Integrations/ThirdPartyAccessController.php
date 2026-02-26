@@ -29,9 +29,26 @@ class ThirdPartyAccessController extends ApplicationController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request,$merchant_id)
     {
-        //
+        $query = ThirdPartyAccess::where('merchant_id', $merchant_id);
+        foreach (ThirdPartyAccess::$allowedFilters as $filter) {
+            if ($request->has($filter)) {
+                $query->where($filter, 'LIKE', '%' . $request->get($filter) . '%');
+            }
+        }
+
+        $sortField = $request->get('sort', 'created_at'); // Default sort
+        $direction = $request->get('direction', 'desc');
+
+        if (in_array($sortField, ThirdPartyAccess::$allowedSorts)) {
+            $query->orderBy($sortField, $direction);
+        }
+
+        $perPage = $request->get('per_page', 15);
+        $third_party_access = $query->paginate($perPage);
+
+        return ThirdPartyAccessResource::collection($third_party_access);
     }
 
     /**

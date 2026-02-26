@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Log;
 abstract class BaseAdaptorXeroService extends BaseDataExporterService
 {
     protected string $endpoint = "/";
+    protected string $endpoint_ext = "";
+    protected string $tag = "";
     protected $resourceClass;
     protected $syncType = ThirdPartySyncProcessTypeEnum::CREATE;
     protected $objectName;
@@ -92,13 +94,16 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
     protected function sendRequest(string $method, array $payload = [], ?string $endpoint = null)
     {
         $url = $endpoint ?? $this->endpoint;
+        $url = "{$url}/{$this->endpoint_ext}";
+        if($this->tag=='Allocated')
+            $method='put';
         $response = Http::withHeaders([
             'Authorization' => "Bearer " . $this->thirdPartyAccess->access_token,
             'Xero-tenant-id' => $this->thirdPartyAccess->organization?->third_party_id,
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
         ])->{$method}($url, $payload);
-
+//dd($response,$url, $payload,$method);
         if (!$response->successful()) {
             throw new Exception($response->body());
         }
@@ -172,14 +177,18 @@ abstract class BaseAdaptorXeroService extends BaseDataExporterService
     protected function handleSyncSuccess($model, $thirdPartyId,$code): void
     {
         if ($this->syncType === ThirdPartySyncProcessTypeEnum::UPDATE) {
-            $model->xeroMapping?->touch();
+            $model->xeroMapping->update([
+                'third_party_tag' => $this->tag,
+                'updated_at' => now()
+            ]);
         } elseif ($this->syncType === ThirdPartySyncProcessTypeEnum::CREATE) {
             $this->saveToMapping(
                 object: $model,
                 thirdPartyId: $thirdPartyId,
                 type: $this->getType(),
                 thirdPartyCode: $code,
-                merchant_id: $this->thirdPartyAccess?->merchant_id
+                merchant_id: $this->thirdPartyAccess?->merchant_id,
+                tag: $this->tag
             );
         }
         elseif($this->syncType === ThirdPartySyncProcessTypeEnum::DELETE) {

@@ -15,7 +15,7 @@ class ThirdPartyAccessResource extends JsonResource
             'id'                                  => $this->id,
             'type'                                => $this->type,
             'access_key'                          => $this->access_key,
-            'access_token'                        => $this->access_token,
+//            'access_token'                        => $this->access_token,
             'client_id'                           => $this->client_id,
             'client_secret'                       => $this->client_secret,
             'starts_at'                           => $this->starts_at,

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api\v1\Integrations;
 
 use App\Http\Controllers\ApplicationController;
-use app\Models\Integrations\ThirdPartyMapping;
+use App\Http\Resources\ThirdPartyMapping\ThirdPartyMappingResource;
+use App\Models\Integrations\ThirdPartyMapping;
 use Illuminate\Http\Request;
 
 class ThirdPartyMappingController extends ApplicationController
@@ -16,9 +17,27 @@ class ThirdPartyMappingController extends ApplicationController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request,$merchant_id)
     {
-        //
+        $query = ThirdPartyMapping::where('merchant_id', $merchant_id)->with(['object']);;
+        foreach (ThirdPartyMapping::$allowedFilersExact as $filter) {
+            if ($request->has($filter)) {
+                $query->where($filter, $request->get($filter));
+            }
+        }
+        foreach (ThirdPartyMapping::$allowedFilters as $filter) {
+            if ($request->has($filter)) {
+                $query->where($filter, 'LIKE', '%' . $request->get($filter) . '%');
+            }
+        }
+        $sortField = $request->get('sort', 'created_at'); // Default sort
+        $direction = $request->get('direction', 'desc');
+
+        if (in_array($sortField, ThirdPartyMapping::$allowedSorts)) {
+            $query->orderBy($sortField, $direction);
+        }
+
+        return ThirdPartyMappingResource::collection($query->paginate($request->get('per_page', 15)));
     }
 
     /**
